@@ -16,6 +16,7 @@ const _submitText = 'Submit';
 const _enterLinkLabelText = 'Enter a WhatsApp Group link';
 const _cancelText = 'Cancel';
 const _okText = 'OK';
+const _appInfoText = 'Linki';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -31,6 +32,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.info),
+            onPressed: () => _showInfoDialog,
+          )
+        ],
       ),
       body: new StreamBuilder(
         stream: Firestore.instance.collection(LINKS_COLLECTION).snapshots(),
@@ -152,5 +159,15 @@ class _MyHomePageState extends State<MyHomePage> {
     var tagStartPos = body.indexOf(tag) + tagLength;
     var tagEndPos = body.indexOf('"', tagStartPos);
     return body.substring(tagStartPos, tagEndPos);
+  }
+
+  void _showInfoDialog(BuildContext context) async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: new Text(_appInfoText),
+          );
+        });
   }
 }

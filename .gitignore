@@ -9,3 +9,5 @@ build/
 .flutter-plugins
 
 .node_modules/
+.functions/node_modules
+
