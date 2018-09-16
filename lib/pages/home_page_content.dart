@@ -12,6 +12,7 @@ import 'package:linki/views/link_item_view.dart';
 const tag = 'MyHomePage:';
 const LINKS_COLLECTION = 'Links';
 const _WHATSAPP_DOT_COM = 'whatsapp.com';
+const _CREATED_AT = 'created_at';
 const _submitText = 'Submit';
 const _enterLinkLabelText = 'Enter a WhatsApp Group link';
 const _cancelText = 'Cancel';
@@ -35,12 +36,15 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.info),
-            onPressed: () => _showInfoDialog,
+            onPressed: () => _showInfoDialog(context),
           )
         ],
       ),
       body: new StreamBuilder(
-        stream: Firestore.instance.collection(LINKS_COLLECTION).snapshots(),
+        stream: Firestore.instance
+            .collection(LINKS_COLLECTION)
+            .orderBy(_CREATED_AT, descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(child: new CircularProgressIndicator());
@@ -167,6 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context) {
           return AlertDialog(
             title: new Text(_appInfoText),
+            content: new Text('Developed by NyayoZangu Init Co. Ltd.'),
           );
         });
   }
