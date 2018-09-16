@@ -33,6 +33,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: new Image.asset(
+            'images/app_icon.png',
+            scale: 0.1,
+          ),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.info),

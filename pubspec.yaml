@@ -4,6 +4,7 @@ description: A new Flutter application.
 dependencies:
   flutter:
     sdk: flutter
+
   cloud_firestore: ^0.7.3
   firebase_database: ^1.0.4
   http: ^0.11.3+17
@@ -23,6 +24,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  assets:
+    - images/app_icon.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
