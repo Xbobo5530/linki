@@ -2,22 +2,17 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:linki/models/link.dart';
+import 'package:linki/pages/search_dialog.dart';
+import 'package:linki/values/strings.dart';
 import 'package:linki/views/link_item_view.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 //import 'package:html/dom.dart';
 //import 'package:html/dom.dart';
 
 const tag = 'MyHomePage:';
-const LINKS_COLLECTION = 'Links';
-const _WHATSAPP_DOT_COM = 'whatsapp.com';
-const _CREATED_AT = 'created_at';
-const _submitText = 'Submit';
-const _enterLinkLabelText = 'Enter a WhatsApp Group link';
-const _cancelText = 'Cancel';
-const _okText = 'OK';
-const _appInfoText = 'Linki';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -28,6 +23,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var linkList = new List<Link>();
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -36,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: new Image.asset(
-            'images/app_icon.png',
+            APP_ICON,
             scale: 0.1,
           ),
         ),
@@ -44,23 +40,33 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.info),
             onPressed: () => _showInfoDialog(context),
-          )
+          ),
+          IconButton(
+              icon: new Icon(Icons.search),
+              onPressed: () => _openSearchDialog(
+                  context, linkList)) /*_openSearchDialog(context, linkList))*/
         ],
       ),
       body: new StreamBuilder(
         stream: Firestore.instance
             .collection(LINKS_COLLECTION)
-            .orderBy(_CREATED_AT, descending: true)
+            .orderBy(CREATED_AT, descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(child: new CircularProgressIndicator());
+
+          //add links to link list for local search
+
+          for (DocumentSnapshot document in snapshot.data.documents) {
+            var link = Link.fromSnapshot(document);
+            linkList.add(link);
+          }
+
           return new ListView.builder(
-            itemCount: snapshot.data.documents.length,
+            itemCount: linkList.length,
             itemBuilder: (context, index) {
-              DocumentSnapshot ds = snapshot.data.documents[index];
-              var link = Link.fromSnapshot(ds);
-              return new LinkItemView(link); /*new Text("${ds['url']}");*/
+              return new LinkItemView(linkList[index]);
             },
           );
         },
@@ -83,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context) {
           return new AlertDialog(
             content: new TextField(
-              decoration: new InputDecoration(labelText: _enterLinkLabelText),
+              decoration: new InputDecoration(labelText: enterLinkLabelText),
               controller: mController,
             ),
             actions: <Widget>[
@@ -94,10 +100,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         mController.clear();
                         Navigator.pop(context);
                       },
-                      child: const Text(_cancelText)),
+                      child: const Text(cancelText)),
                   new FlatButton(
                     onPressed: () => _submit(context, mController),
-                    child: const Text(_submitText),
+                    child: const Text(submitText),
                   )
                 ],
               )
@@ -108,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _submit(BuildContext context, TextEditingController controller) {
     String url = mController.text;
-    if (url.contains(_WHATSAPP_DOT_COM)) {
+    if (url.contains(WHATSAPP_DOT_COM)) {
       _processLink(url);
       controller.clear();
       Navigator.pop(context);
@@ -140,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
             actions: <Widget>[
               new FlatButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text(_okText))
+                  child: const Text(okText))
             ],
           );
         });
@@ -149,8 +155,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void _processLink(String url) {
     print('$tag at process link');
     http.get(url, headers: {'title': 'title'}).then((response) {
-//      print(
-//          '$tag $response\nResponse status: ${response.statusCode}\nResponse body: ${response.body}');
       var titleTag = '<meta property="og:title" content="';
       var imageUrlTag = '<meta property="og:image" content="';
       var descriptionTag = '<meta property="og:description" content="';
@@ -177,9 +181,36 @@ class _MyHomePageState extends State<MyHomePage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: new Text(_appInfoText),
-            content: new Text('Developed by NyayoZangu Init Co. Ltd.'),
+            title: new Text(appInfoText),
+            content: new Text(devByText),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Contact us'),
+                onPressed: () {
+                  _initiateContact();
+                  Navigator.pop(context);
+                },
+              )
+            ],
           );
         });
+  }
+
+  void _initiateContact() async {
+    var url = 'tel: +2550713810803';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  _openSearchDialog(BuildContext context, List<Link> linkList) {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(
+          builder: (context) => new SearchDialog(linkList),
+          fullscreenDialog: true),
+    );
   }
 }
