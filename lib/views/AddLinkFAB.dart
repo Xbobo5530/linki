@@ -12,6 +12,7 @@ class AddLinkFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      backgroundColor: Colors.black,
       onPressed: () => _showDialog(context),
       tooltip: 'Add link',
       child: new Icon(Icons.add),

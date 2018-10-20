@@ -29,8 +29,12 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text(appInfoText),
             content: Text(devByText),
             actions: <Widget>[
-              FlatButton(
-                child: Text(contactUsText),
+              RaisedButton(
+                color: Colors.white,
+                textColor: Colors.black,
+                child: Text(
+                  contactUsText,
+                ),
                 onPressed: () {
                   _initiateContact();
                   Navigator.pop(context);
@@ -74,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.0,
         title: Text(widget.title),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),

@@ -13,6 +13,7 @@ class LinkItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
+        backgroundColor: Colors.black,
         backgroundImage: link.imageUrl != null
             ? NetworkImage(link.imageUrl)
             : AssetImage('assets/icon-foreground.png'),
@@ -20,7 +21,10 @@ class LinkItemView extends StatelessWidget {
       title: Text(link.title),
       subtitle: Text(link.description),
       trailing: IconButton(
-        icon: Icon(Icons.share),
+        icon: Icon(
+          Icons.share,
+          color: Colors.black,
+        ),
         onPressed: () => Share.share(link.url),
       ),
       onTap: () => _openLink(link.url),
