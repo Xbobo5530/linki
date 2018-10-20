@@ -64,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     _deleteLink(int index, String linkId) async {
       await Firestore.instance
           .collection(LINKS_COLLECTION)
@@ -116,6 +117,13 @@ class _MyHomePageState extends State<MyHomePage> {
               var link = Link.fromSnapshot(document);
               var linkId = document.documentID;
               link.id = linkId;
+              /*return
+
+              LinkItemView(
+                link: link,
+              );*/
+
+
               return Dismissible(
                 key: Key(link.id),
                 child: LinkItemView(

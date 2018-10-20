@@ -16,15 +16,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a6c719a4-db69-4fa3-9ade-f66963ebc35c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/home.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/home_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/home_page_content.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/values/strings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/values/strings.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/views/AddLinkFAB.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/views/AddLinkFAB.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/views/link_item_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/views/link_item_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -45,11 +38,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="home.dart" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lib/pages/home.dart">
+      <file leaf-file-name="home_page_content.dart" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/pages/home_page_content.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="5" column="48" lean-forward="true" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
+            <state relative-caret-position="2249">
+              <caret line="147" column="31" lean-forward="true" selection-start-line="147" selection-start-column="31" selection-end-line="147" selection-end-column="31" />
+              <folding>
+                <element signature="e#0#54#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -93,15 +89,15 @@
         <option value="$PROJECT_DIR$/android/key.properties" />
         <option value="$PROJECT_DIR$/android/app/proguard-rules.pro" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/android/app/build.gradle" />
         <option value="$PROJECT_DIR$/lib/models/link.dart" />
         <option value="$PROJECT_DIR$/lib/pages/search_dialog.dart" />
         <option value="$PROJECT_DIR$/pubspec.yaml" />
         <option value="$PROJECT_DIR$/lib/views/link_item_view.dart" />
-        <option value="$PROJECT_DIR$/lib/views/AddLinkFAB.dart" />
-        <option value="$PROJECT_DIR$/lib/pages/home_page_content.dart" />
         <option value="$PROJECT_DIR$/lib/values/strings.dart" />
         <option value="$PROJECT_DIR$/lib/pages/home.dart" />
+        <option value="$PROJECT_DIR$/android/app/build.gradle" />
+        <option value="$PROJECT_DIR$/lib/pages/home_page_content.dart" />
+        <option value="$PROJECT_DIR$/lib/views/AddLinkFAB.dart" />
       </list>
     </option>
   </component>
@@ -118,7 +114,28 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="linki" type="1abcf292:AndroidViewProjectNode" />
+              <item name="linki_android" type="e9137016:NonAndroidModuleNode" />
+            </path>
+            <path>
+              <item name="linki" type="1abcf292:AndroidViewProjectNode" />
+              <item name="linki_android" type="e9137016:NonAndroidModuleNode" />
+              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="linki" type="1abcf292:AndroidViewProjectNode" />
+              <item name="linki_android" type="e9137016:NonAndroidModuleNode" />
+              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
@@ -130,43 +147,7 @@
             </path>
             <path>
               <item name="linki" type="b2602c69:ProjectViewProjectNode" />
-              <item name="linki" type="462c0819:PsiDirectoryNode" />
-              <item name="ios" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="linki" type="b2602c69:ProjectViewProjectNode" />
-              <item name="linki" type="462c0819:PsiDirectoryNode" />
-              <item name="ios" type="462c0819:PsiDirectoryNode" />
-              <item name="Runner" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="linki" type="b2602c69:ProjectViewProjectNode" />
-              <item name="linki" type="462c0819:PsiDirectoryNode" />
-              <item name="ios" type="462c0819:PsiDirectoryNode" />
-              <item name="Runner.xcworkspace" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="linki" type="b2602c69:ProjectViewProjectNode" />
-              <item name="linki" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="linki" type="b2602c69:ProjectViewProjectNode" />
-              <item name="linki" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="linki" type="b2602c69:ProjectViewProjectNode" />
-              <item name="linki" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="linki" type="b2602c69:ProjectViewProjectNode" />
-              <item name="linki" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
@@ -176,7 +157,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$/build/app/outputs/apk/release/app-release.apk" />
-    <property name="SearchEverywhereHistoryKey" value="home&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/pages/home.dart&#10;string&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/values/strings.dart&#10;views&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/views&#10;lin&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/views/link_item_view.dart&#10;yam&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/pubspec.yaml&#10;hoem&#9;null&#9;null&#10;search&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/pages/search_dialog.dart&#10;sea&#9;null&#9;null&#10;link&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/models/link.dart&#10;sear&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/pages/search_dialog.dart&#10;main&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/main.dart&#10;runner&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/ios/Runner&#10;lib&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib&#10;build&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/android/app/build.gradle&#10;ite&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/views/link_item_view.dart&#10;stri&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/values/strings.dart&#10;strin&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/values/strings.dart&#10;item&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/views/link_item_view.dart&#10;mani&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/android/app/src/main/AndroidManifest.xml&#10;bui&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/android/app/build.gradle&#10;ya&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/pubspec.yaml&#10;Response&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="addl&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/views/AddLinkFAB.dart&#10;home&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/pages/home_page_content.dart&#10;addlin&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/views/AddLinkFAB.dart&#10;build&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/android/app/build.gradle&#10;termina&#9;ACTION&#9;ActivateTerminalToolWindow&#10;linkitem&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/views/link_item_view.dart&#10;intem&#9;null&#9;null&#10;string&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/values/strings.dart&#10;views&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/views&#10;lin&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/views/link_item_view.dart&#10;yam&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/pubspec.yaml&#10;hoem&#9;null&#9;null&#10;search&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/pages/search_dialog.dart&#10;sea&#9;null&#9;null&#10;link&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/models/link.dart&#10;sear&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/pages/search_dialog.dart&#10;main&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/main.dart&#10;runner&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/ios/Runner&#10;lib&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib&#10;ite&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/views/link_item_view.dart&#10;stri&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/values/strings.dart&#10;strin&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/values/strings.dart&#10;item&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/lib/views/link_item_view.dart&#10;mani&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/android/app/src/main/AndroidManifest.xml&#10;bui&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/android/app/build.gradle&#10;ya&#9;FILE&#9;file:///Users/Sean/Dev/Projects/Linki/linki/pubspec.yaml&#10;Response&#9;null&#9;null" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -325,7 +306,14 @@
       <option name="project" value="LOCAL" />
       <updated>1540046624457</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Linki 0.1.10 damage control">
+      <created>1540051188262</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1540051188262</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
@@ -343,7 +331,7 @@
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
       <window_info id="Build Variants" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5089568" side_tool="true" weight="0.4028369" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50554997" side_tool="true" weight="0.30027547" />
       <window_info anchor="bottom" id="Dart Analysis" order="7" weight="0.32907802" />
       <window_info anchor="right" id="Flutter Outline" order="3" weight="0.32982087" />
       <window_info anchor="bottom" id="Logcat" order="7" sideWeight="0.49676898" weight="0.32907802" />
@@ -359,28 +347,51 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4910432" visible="true" weight="0.3553719" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.30212766" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49445006" weight="0.30027547" />
       <window_info id="Captures" order="2" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.26841575" />
       <window_info anchor="bottom" id="JProfiler" order="7" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" id="Flutter Inspector" order="3" weight="0.32982087" />
-      <window_info anchor="right" id="Flutter" order="4" />
-      <window_info active="true" anchor="right" id="Assistant" order="4" visible="true" weight="0.4853683" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Thumbnails" order="9" weight="0.32907802" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="Android Model" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Android Monitor" order="7" weight="0.32909605" />
-      <window_info id="UI Designer" order="2" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
+      <window_info active="true" anchor="right" id="Assistant" order="4" visible="true" weight="0.4853683" />
+      <window_info id="Build Variants" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.30212766" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.26841575" />
+      <window_info anchor="right" id="Flutter Outline" order="3" weight="0.32982087" />
       <window_info anchor="right" id="Palette" order="3" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32907802" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info id="Designer" order="2" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4910432" visible="true" weight="0.3553719" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" order="2" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="bottom" id="Thumbnails" order="9" weight="0.32907802" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5089568" side_tool="true" weight="0.4028369" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="right" id="Android Model" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="JProfiler" order="7" />
+      <window_info anchor="bottom" id="Logcat" order="7" sideWeight="0.49676898" weight="0.32907802" />
+      <window_info anchor="bottom" id="Android Monitor" order="7" weight="0.32909605" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Flutter" order="4" />
+      <window_info id="Captures" order="2" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Flutter Inspector" order="3" weight="0.32982087" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -402,7 +413,8 @@
     <MESSAGE value="linki v0.0.4 &#10;- about to run ios build" />
     <MESSAGE value="linki v0.0.5 code review &#10;- reviewed homepage" />
     <MESSAGE value="linki v0.0.6 delete &#10;- added delete dismissable to links" />
-    <option name="LAST_COMMIT_MESSAGE" value="linki v0.0.6 delete &#10;- added delete dismissable to links" />
+    <MESSAGE value="Linki 0.1.10 damage control" />
+    <option name="LAST_COMMIT_MESSAGE" value="Linki 0.1.10 damage control" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -410,11 +422,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pubspec.lock">
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/android/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
@@ -636,13 +643,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/android/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="777">
-          <caret line="37" column="21" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ios/Runner.xcworkspace/contents.xcworkspacedata">
       <provider selected="true" editor-type-id="text-editor">
         <state />
@@ -697,33 +697,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/views/link_item_view.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" column="28" lean-forward="true" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/views/AddLinkFAB.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="16" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/pages/home_page_content.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="28" column="37" lean-forward="true" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/values/strings.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
@@ -738,10 +711,57 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../../sdk/flutter/flutter/packages/flutter/lib/src/gestures/events.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="586">
+          <caret line="459" column="6" selection-start-line="459" selection-start-column="6" selection-end-line="459" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/views/link_item_view.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="16" column="44" lean-forward="true" selection-start-line="16" selection-start-column="44" selection-end-line="16" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/home.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="5" column="48" lean-forward="true" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
+        <state relative-caret-position="347">
+          <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="44" column="19" lean-forward="true" selection-start-line="44" selection-start-column="19" selection-end-line="44" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/views/AddLinkFAB.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="14" column="36" lean-forward="true" selection-end-line="125" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/pages/home_page_content.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2249">
+          <caret line="147" column="31" lean-forward="true" selection-start-line="147" selection-start-column="31" selection-end-line="147" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
