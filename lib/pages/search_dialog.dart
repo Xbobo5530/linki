@@ -14,7 +14,7 @@ class _SearchDialogState extends State<SearchDialog> {
   final List<Link> linkList;
   var _searchText = '';
   List<Link> searchResults = [];
-  var _searchFieldController = new TextEditingController();
+  var _searchFieldController = TextEditingController();
 
   _SearchDialogState(this.linkList) {
     _searchFieldController.addListener(() {
@@ -35,7 +35,7 @@ class _SearchDialogState extends State<SearchDialog> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: new TextField(
+          title: TextField(
             decoration: InputDecoration(
               hintText: searchHintText,
               prefixIcon: Icon(Icons.search),
@@ -45,10 +45,9 @@ class _SearchDialogState extends State<SearchDialog> {
             controller: _searchFieldController,
           ),
         ),
-        body: new ListView.builder(
+        body: ListView.builder(
             itemCount: searchResults.length,
             itemBuilder: (context, index) {
-//              searchResults.clear();
               if (_searchText.isNotEmpty) {
                 List<Link> tempList = [];
                 for (Link link in linkList) {
@@ -61,7 +60,7 @@ class _SearchDialogState extends State<SearchDialog> {
                 searchResults = tempList;
               }
               if (searchResults.isNotEmpty)
-                return LinkItemView(searchResults[index]);
+                return LinkItemView(link: searchResults[index]);
               return Container();
             }));
   }

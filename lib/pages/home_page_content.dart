@@ -18,7 +18,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var linkList = List<Link>();
-
+  var _data;
+  var _snapshot;
   //todo test if info dialog still works
   _showInfoDialog() async {
     await showDialog(
@@ -49,7 +50,28 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    _data = Firestore.instance
+        .collection(LINKS_COLLECTION)
+        .orderBy(CREATED_AT, descending: true)
+        .snapshots();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _deleteLink(int index, String linkId) async {
+      await Firestore.instance
+          .collection(LINKS_COLLECTION)
+          .document(linkId)
+          .delete();
+      setState(() {
+        _snapshot.data.documents.removeAt(index);
+        linkList.remove(index);
+        print('$tag link has been deleted');
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -70,14 +92,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: StreamBuilder(
-        stream: Firestore.instance
-            .collection(LINKS_COLLECTION)
-            .orderBy(CREATED_AT, descending: true)
-            .snapshots(),
+        stream: _data,
         builder: (_, snapshot) {
           if (!snapshot.hasData)
             return Center(child: CircularProgressIndicator());
-
           //add links to link list for local search
           for (DocumentSnapshot document in snapshot.data.documents) {
             var linkId = document.documentID;
@@ -85,13 +103,25 @@ class _MyHomePageState extends State<MyHomePage> {
             link.id = linkId;
             linkList.add(link);
           }
-
+          _snapshot = snapshot;
           return ListView.builder(
             itemCount: snapshot.data.documents.length,
             itemBuilder: (_, index) {
               var document = snapshot.data.documents[index];
               var link = Link.fromSnapshot(document);
-              return LinkItemView(link);
+              var linkId = document.documentID;
+              link.id = linkId;
+              return Dismissible(
+                key: Key(link.id),
+                child: LinkItemView(
+                  link: link,
+                ),
+                background: Container(
+                  color: Colors.red,
+                  child: Icon(Icons.delete),
+                ),
+                onDismissed: (_) => _deleteLink(index, linkId),
+              );
             },
           );
         },

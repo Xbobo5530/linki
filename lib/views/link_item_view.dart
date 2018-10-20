@@ -1,23 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:linki/models/link.dart';
+import 'package:linki/values/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+const tag = 'LinkItemView';
 
 class LinkItemView extends StatelessWidget {
   final Link link;
-  LinkItemView(this.link);
+  LinkItemView({this.link});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: new ListTile(
-        leading: new CircleAvatar(
-          backgroundImage: link.imageUrl != null
-              ? NetworkImage(link.imageUrl)
-              : AssetImage('assets/icon-foreground.png'),
-        ),
-        title: new Text(link.title),
-        subtitle: new Text(link.description),
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundImage: link.imageUrl != null
+            ? NetworkImage(link.imageUrl)
+            : AssetImage('assets/icon-foreground.png'),
       ),
+      title: Text(link.title),
+      subtitle: Text(link.description),
       onTap: () => _openLink(link.url),
     );
   }

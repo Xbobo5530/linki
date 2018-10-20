@@ -5,6 +5,7 @@ class Link {
   Link(this.id, this.url, this.title, this.imageUrl, this.description,
       this.createdAt);
 
+  /// a constructor for converting the snapshot to a dart object
   Link.fromSnapshot(var value) {
     this.url = value['url'];
     this.title = value['title'];
