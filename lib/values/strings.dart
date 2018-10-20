@@ -9,6 +9,7 @@ const submitText = 'Submit';
 const enterLinkLabelText = 'Enter a WhatsApp Group link';
 const cancelText = 'Cancel';
 const okText = 'OK';
+const errorText = 'Error';
 const searchText = 'Search';
 const searchHintText = 'Search for groups';
 const searchLabelText = 'Search for groups';

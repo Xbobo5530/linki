@@ -1,8 +1,9 @@
 class Link {
-  String url, title, imageUrl, description;
+  String id, url, title, imageUrl, description;
   int createdAt;
 
-  Link(this.url, this.title, this.imageUrl, this.description, this.createdAt);
+  Link(this.id, this.url, this.title, this.imageUrl, this.description,
+      this.createdAt);
 
   Link.fromSnapshot(var value) {
     this.url = value['url'];

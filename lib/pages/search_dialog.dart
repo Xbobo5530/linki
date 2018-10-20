@@ -12,9 +12,8 @@ class SearchDialog extends StatefulWidget {
 
 class _SearchDialogState extends State<SearchDialog> {
   final List<Link> linkList;
-
   var _searchText = '';
-  List<Link> searchResults = new List<Link>();
+  List<Link> searchResults = [];
   var _searchFieldController = new TextEditingController();
 
   _SearchDialogState(this.linkList) {
@@ -39,7 +38,7 @@ class _SearchDialogState extends State<SearchDialog> {
           title: new TextField(
             decoration: InputDecoration(
               hintText: searchHintText,
-              prefixIcon: new Icon(Icons.search),
+              prefixIcon: Icon(Icons.search),
             ),
             textInputAction: TextInputAction.search,
             autofocus: true,
@@ -49,8 +48,9 @@ class _SearchDialogState extends State<SearchDialog> {
         body: new ListView.builder(
             itemCount: searchResults.length,
             itemBuilder: (context, index) {
+//              searchResults.clear();
               if (_searchText.isNotEmpty) {
-                List tempList = new List<Link>();
+                List<Link> tempList = [];
                 for (Link link in linkList) {
                   if (link.title
                       .toLowerCase()
@@ -60,7 +60,9 @@ class _SearchDialogState extends State<SearchDialog> {
                 }
                 searchResults = tempList;
               }
-              return new LinkItemView(searchResults[index]);
+              if (searchResults.isNotEmpty)
+                return LinkItemView(searchResults[index]);
+              return Container();
             }));
   }
 }

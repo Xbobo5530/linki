@@ -11,7 +11,9 @@ class LinkItemView extends StatelessWidget {
     return InkWell(
       child: new ListTile(
         leading: new CircleAvatar(
-          backgroundImage: NetworkImage(link.imageUrl),
+          backgroundImage: link.imageUrl != null
+              ? NetworkImage(link.imageUrl)
+              : AssetImage('assets/icon-foreground.png'),
         ),
         title: new Text(link.title),
         subtitle: new Text(link.description),
