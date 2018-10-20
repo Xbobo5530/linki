@@ -14,4 +14,5 @@ const searchText = 'Search';
 const searchHintText = 'Search for groups';
 const searchLabelText = 'Search for groups';
 const appInfoText = 'Linki';
+const contactUsText = 'Contact us';
 const devByText = 'Developed by NyayoZangu Init Co. Ltd.';

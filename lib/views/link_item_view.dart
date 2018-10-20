@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:linki/models/link.dart';
-import 'package:linki/values/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share/share.dart';
 
 const tag = 'LinkItemView';
 
@@ -20,6 +19,10 @@ class LinkItemView extends StatelessWidget {
       ),
       title: Text(link.title),
       subtitle: Text(link.description),
+      trailing: IconButton(
+        icon: Icon(Icons.share),
+        onPressed: () => Share.share(link.url),
+      ),
       onTap: () => _openLink(link.url),
     );
   }

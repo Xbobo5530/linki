@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:linki/models/link.dart';
 import 'package:linki/pages/search_dialog.dart';
 import 'package:linki/values/strings.dart';
+import 'package:linki/views/AddLinkFAB.dart';
 import 'package:linki/views/link_item_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,7 +21,6 @@ class _MyHomePageState extends State<MyHomePage> {
   var linkList = List<Link>();
   var _data;
   var _snapshot;
-  //todo test if info dialog still works
   _showInfoDialog() async {
     await showDialog(
         context: context,
@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
             content: Text(devByText),
             actions: <Widget>[
               FlatButton(
-                child: Text('Contact us'),
+                child: Text(contactUsText),
                 onPressed: () {
                   _initiateContact();
                   Navigator.pop(context);
@@ -126,6 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         },
       ),
+      floatingActionButton: AddLinkFAB(),
     );
   }
 
