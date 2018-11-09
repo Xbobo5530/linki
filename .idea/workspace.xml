@@ -16,7 +16,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a6c719a4-db69-4fa3-9ade-f66963ebc35c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/home_page_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/home_page_content.dart" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
@@ -41,8 +40,8 @@
       <file leaf-file-name="home_page_content.dart" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/pages/home_page_content.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2249">
-              <caret line="147" column="31" lean-forward="true" selection-start-line="147" selection-start-column="31" selection-end-line="147" selection-end-column="31" />
+            <state relative-caret-position="3045">
+              <caret line="145" column="31" lean-forward="true" selection-start-line="145" selection-start-column="31" selection-end-line="145" selection-end-column="31" />
               <folding>
                 <element signature="e#0#54#0" expanded="true" />
               </folding>
@@ -66,6 +65,7 @@
       <find>Text</find>
       <find>process</find>
       <find>print</find>
+      <find>floa</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -96,8 +96,8 @@
         <option value="$PROJECT_DIR$/lib/values/strings.dart" />
         <option value="$PROJECT_DIR$/lib/pages/home.dart" />
         <option value="$PROJECT_DIR$/android/app/build.gradle" />
-        <option value="$PROJECT_DIR$/lib/pages/home_page_content.dart" />
         <option value="$PROJECT_DIR$/lib/views/AddLinkFAB.dart" />
+        <option value="$PROJECT_DIR$/lib/pages/home_page_content.dart" />
       </list>
     </option>
   </component>
@@ -313,7 +313,14 @@
       <option name="project" value="LOCAL" />
       <updated>1540051188262</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Linki 0.1.10 after release">
+      <created>1540052478097</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1540052478097</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -345,7 +352,7 @@
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4910432" visible="true" weight="0.3553719" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4910432" weight="0.3553719" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49445006" weight="0.30027547" />
       <window_info id="Captures" order="2" />
@@ -414,7 +421,8 @@
     <MESSAGE value="linki v0.0.5 code review &#10;- reviewed homepage" />
     <MESSAGE value="linki v0.0.6 delete &#10;- added delete dismissable to links" />
     <MESSAGE value="Linki 0.1.10 damage control" />
-    <option name="LAST_COMMIT_MESSAGE" value="Linki 0.1.10 damage control" />
+    <MESSAGE value="Linki 0.1.10 after release" />
+    <option name="LAST_COMMIT_MESSAGE" value="Linki 0.1.10 after release" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -757,8 +765,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/home_page_content.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2249">
-          <caret line="147" column="31" lean-forward="true" selection-start-line="147" selection-start-column="31" selection-end-line="147" selection-end-column="31" />
+        <state relative-caret-position="3045">
+          <caret line="145" column="31" lean-forward="true" selection-start-line="145" selection-start-column="31" selection-end-line="145" selection-end-column="31" />
           <folding>
             <element signature="e#0#54#0" expanded="true" />
           </folding>

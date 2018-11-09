@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:linki/values/consts.dart';
 import 'package:linki/values/strings.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,21 +26,21 @@ class AddLinkFAB extends StatelessWidget {
     await showDialog(
         context: context,
         builder: (BuildContext context) {
-          return new AlertDialog(
-            content: new TextField(
-              decoration: new InputDecoration(labelText: enterLinkLabelText),
+          return  AlertDialog(
+            content:  TextField(
+              decoration:  InputDecoration(labelText: enterLinkLabelText),
               controller: mController,
             ),
             actions: <Widget>[
               ButtonBar(
                 children: <Widget>[
-                  new FlatButton(
+                   FlatButton(
                       onPressed: () {
                         mController.clear();
                         Navigator.pop(context);
                       },
                       child: const Text(cancelText)),
-                  new FlatButton(
+                   FlatButton(
                     onPressed: () => _submit(context, mController),
                     child: const Text(submitText),
                   )

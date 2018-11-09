@@ -1,16 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:linki/values/consts.dart';
+import 'package:meta/meta.dart';
+
 class Link {
-  String id, url, title, imageUrl, description;
+  String id, url, title, imageUrl, description, createdBy;
   int createdAt;
 
-  Link(this.id, this.url, this.title, this.imageUrl, this.description,
-      this.createdAt);
+  Link(
+      {this.id,
+      @required this.url,
+      @required this.title,
+      this.imageUrl,
+      this.description,
+      @required this.createdAt,
+      this.createdBy})
+      : assert(url != null),
+        assert(title != null),
+        assert(createdAt != null);
 
   /// a constructor for converting the snapshot to a dart object
-  Link.fromSnapshot(var value) {
-    this.url = value['url'];
-    this.title = value['title'];
-    this.imageUrl = value['image_url'];
-    this.description = value['description'];
-    this.createdAt = value['created_at'];
-  }
+  Link.fromSnapshot(DocumentSnapshot document)
+      : this.id = document.documentID,
+        this.url = document[URL_FIELD],
+        this.title = document[TITLE_FIELD],
+        this.imageUrl = document[IMAGE_URL_FIELD],
+        this.description = document[DESCRIPTION_FIELD],
+        this.createdAt = document[CREATED_AT_FIELD],
+        this.createdBy = document[CREATED_BY_FIELD];
 }
