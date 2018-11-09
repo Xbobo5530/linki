@@ -8,3 +8,5 @@
 /build
 /captures
 GeneratedPluginRegistrant.java
+# manually added
+/app/google-services.json

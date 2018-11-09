@@ -1,10 +1,11 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart';
 import 'package:linki/models/link.dart';
-import 'package:linki/models/main_model.dart';
 import 'package:linki/values/consts.dart';
 import 'package:linki/values/status_code.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:http/http.dart' as http;
 
 
 const _tag = 'LinkModel:';

@@ -43,3 +43,7 @@ Icon?
 
 Pods/
 .symlinks/
+
+# manually added
+/Runner/GoogleService-Info.plist
+/Runner/Info.plist

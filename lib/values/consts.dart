@@ -14,3 +14,5 @@ const IMAGE_URL_FIELD = 'image_url';
 const ID_FIELD = 'id';
 const TITLE_FIELD = 'title';
 const DESCRIPTION_FIELD = 'description';
+
+const CONTACT_URL = 'tel: +2550713810803';
