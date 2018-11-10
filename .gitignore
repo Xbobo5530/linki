@@ -9,7 +9,10 @@ build/
 .flutter-plugins
 
 # manually added
-/ios/Runner/GoogleService-Info.plist
-/ios/Runner/GoogleService-Info.plist
-/android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
+*.json
+*.plist
+
 

@@ -6,7 +6,7 @@ import 'package:linki/values/strings.dart';
 
 import 'package:linki/models/link.dart';
 import 'package:linki/pages/search_dialog.dart';
-import 'package:linki/views/AddLinkFab.dart';
+// import 'package:linki/views/AddLinkFab.dart';
 import 'package:linki/views/link_item_view.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -120,9 +120,9 @@ class MyHomePage extends StatelessWidget {
       appBar: _appBar,
       body: _bodySection,
       floatingActionButton: FloatingActionButton(
-        child:Icon(Icons.add),
+        child: Icon(Icons.add),
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (_) => AddLinkPage())),
+            context, MaterialPageRoute(builder: (_) => AddLinkPage(), fullscreenDialog: true)),
       ),
     );
   }

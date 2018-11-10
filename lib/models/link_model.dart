@@ -49,7 +49,7 @@ final _database = Firestore.instance;
 
   
 
-  Future<void> submitLink(String url) async {
+  Future<StatusCode> submitLink(String url) async {
     print('$_tag at submitLink');
     _submittingLinkStatus = StatusCode.waiting;
     notifyListeners();

@@ -19,14 +19,17 @@ class Linki extends StatelessWidget {
         title: APP_NAME,
         theme: ThemeData(
             //todo work on the app theme data
-            primaryColor: primaryColor,
-            scaffoldBackgroundColor: primaryColor,
-            canvasColor: Colors.black,
-            dialogBackgroundColor: primaryColor,
-            textTheme: Theme.of(context).textTheme.copyWith(
-                  caption: TextStyle(color: Colors.white),
-                  subhead: TextStyle(color: Colors.white),
-                )),
+            primarySwatch: Colors.deepOrange
+            // primaryColor: primaryColor,
+            // scaffoldBackgroundColor: primaryColor,
+            // canvasColor: Colors.black,
+            // dialogBackgroundColor: primaryColor,
+            // textTheme: Theme.of(context).textTheme.copyWith(
+            //       caption: TextStyle(color: Colors.white),
+            //       subhead: TextStyle(color: Colors.white),
+                // )
+                )
+                ,
         home: MyHomePage(),
       ),
     );
