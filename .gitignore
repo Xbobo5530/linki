@@ -10,9 +10,12 @@ build/
 
 # manually added
 ios/Runner/GoogleService-Info.plist
-ios/Runner/GoogleService-Info.plist
+ios/Runner/Info.plist
 android/app/google-services.json
 *.json
 *.plist
 
 
+ios/Runner/Info.plist
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
