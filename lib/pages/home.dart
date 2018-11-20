@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:linki/models/main_model.dart';
 import 'package:linki/values/consts.dart';
+import 'package:linki/values/info_dialog.dart';
 import 'package:linki/values/status_code.dart';
 import 'package:linki/values/strings.dart';
-
 import 'package:linki/pages/search_dialog.dart';
 import 'package:linki/views/add_link.dart';
 import 'package:linki/views/home_body.dart';
 import 'package:linki/views/login.dart';
 import 'package:scoped_model/scoped_model.dart';
-
 
 const _tag = 'MyHomePage:';
 
@@ -20,27 +19,7 @@ class MyHomePage extends StatelessWidget {
       await showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              title: Text(appInfoText),
-              content: Text(devByText),
-              actions: <Widget>[
-                ScopedModelDescendant<MainModel>(
-                  builder: (_, __, model) {
-                    return RaisedButton(
-                      color: Colors.white,
-                      textColor: Colors.black,
-                      child: Text(
-                        contactUsText,
-                      ),
-                      onPressed: () {
-                        model.initiateContact();
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                )
-              ],
-            );
+            return InfoDialog();
           });
     }
 
@@ -65,43 +44,46 @@ class MyHomePage extends StatelessWidget {
       }
     }
 
+    _buildMessageSection(MainModel model) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+          child: Text(
+            model.logoutStatus == StatusCode.failed
+                ? errorMessage
+                : confirmLogoutText,
+            style: TextStyle(fontSize: 16.0),
+          ),
+        );
+
+    _buildActions(MainModel model) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              FlatButton(
+                child: Text(
+                  model.logoutStatus == StatusCode.waiting
+                      ? waitText.toUpperCase()
+                      : logoutText.toUpperCase(),
+                  style: TextStyle(color: Colors.deepOrange),
+                ),
+                onPressed: () => _handleLogout(model),
+              ),
+              FlatButton(
+                child: Text(cancelText.toUpperCase()),
+                onPressed: () => Navigator.pop(context),
+              )
+            ],
+          ),
+        );
+
     _showConfirmmationDialog() async => showDialog(
         context: context,
         builder: (context) => ScopedModelDescendant<MainModel>(
             builder: (_, __, model) => SimpleDialog(
                   title: Text(logoutText),
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24.0, vertical: 8.0),
-                      child: Text(
-                        model.logoutStatus == StatusCode.failed
-                            ? errorMessage
-                            : confirmLogoutText,
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          FlatButton(
-                            child: Text(
-                              model.logoutStatus == StatusCode.waiting
-                                  ? waitText.toUpperCase()
-                                  : logoutText.toUpperCase(),
-                              style: TextStyle(color: Colors.deepOrange),
-                            ),
-                            onPressed: () => _handleLogout(model),
-                          ),
-                          FlatButton(
-                            child: Text(cancelText.toUpperCase()),
-                            onPressed: () => Navigator.pop(context),
-                          )
-                        ],
-                      ),
-                    )
+                    _buildMessageSection(model),
+                    _buildActions(model)
                   ],
                 )));
 

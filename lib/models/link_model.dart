@@ -15,8 +15,10 @@ const _tag = 'LinkModel:';
 abstract class LinkModel extends Model {
   final _database = Firestore.instance;
 
-  Stream<QuerySnapshot> get linksStream =>
-      _database.collection(LINKS_COLLECTION).snapshots();
+  Stream<QuerySnapshot> get linksStream => _database
+      .collection(LINKS_COLLECTION)
+      .orderBy(CREATED_AT_FIELD, descending: true)
+      .snapshots();
 
   StatusCode _submittingLinkStatus;
   StatusCode get submittingLinkStatus => _submittingLinkStatus;
@@ -114,7 +116,7 @@ abstract class LinkModel extends Model {
       DESCRIPTION_FIELD: description,
       CREATED_AT_FIELD: DateTime.now().millisecondsSinceEpoch
     };
-    await _database
+    DocumentReference documentRef = await _database
         .collection(LINKS_COLLECTION)
         .add(linkMap)
         .catchError((error) {
@@ -122,6 +124,29 @@ abstract class LinkModel extends Model {
       _hasError = true;
     });
 
+    if (_hasError) return StatusCode.failed;
+    _createLinkRefForUser(documentRef, user);
+    return StatusCode.success;
+  }
+
+  Future<StatusCode> _createLinkRefForUser(
+      DocumentReference documentRef, User user) async {
+    print('$_tag at _createUserRef');
+    bool _hasError = false;
+    Map<String, dynamic> userRefMap = {
+      CREATED_BY_FIELD: user.id,
+      CREATED_AT_FIELD: DateTime.now().millisecondsSinceEpoch,
+      LINK_ID_FIELD: documentRef.documentID
+    };
+    await _database
+        .collection(USERS_COLLECTION)
+        .document(user.id)
+        .collection(LINKS_COLLECTION)
+        .add(userRefMap)
+        .catchError((error) {
+      print('$_tag error on creating a link ref doc for user: $error');
+      _hasError = true;
+    });
     if (_hasError) return StatusCode.failed;
     return StatusCode.success;
   }
@@ -158,8 +183,19 @@ abstract class LinkModel extends Model {
     }
   }
 
-  initiateContact() async {
-    final url = CONTACT_URL;
+  initiateContact(ContactType type) async {
+    print('$_tag at initiateContact');
+    String url;
+    switch (type) {
+      case ContactType.phone:
+        url = CONTACT_PHONE_URL;
+        break;
+      case ContactType.email:
+        url = CONTACT_EMAIL_URL;
+        break;
+      default:
+        print('$_tag unexpected contact type: $type');
+    }
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -168,10 +204,12 @@ abstract class LinkModel extends Model {
   }
 
   share(Link link) {
-    final _shareText = '${link.title}\n${link.url}\nshared from Linki app: $LINKI_DOWNLOAD_URL';
+    final _shareText =
+        '${link.title}\n${link.url}\nshared from Linki app: $LINKI_DOWNLOAD_URL';
     Share.share(_shareText);
   }
-  report(Link link){
+
+  report(Link link) {
     //TODO: handle report link
     /// if a link has been reported more than 3 times, the link is automatically deleted
   }

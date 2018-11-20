@@ -75,9 +75,13 @@ class AddLinkDialog extends StatelessWidget {
       builder: (_, __, model) => SimpleDialog(
             title: Text(addLinkText),
             children: model.submittingLinkStatus == StatusCode.waiting
-                ? <Widget>[
+                ? 
+                <Widget>[
                     Center(
-                      child: CircularProgressIndicator(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(40.0),
+                        child: CircularProgressIndicator(),
+                      ),
                     )
                   ]
                 : <Widget>[

@@ -15,7 +15,12 @@ const searchText = 'Search';
 const searchHintText = 'Search for groups';
 const searchLabelText = 'Search for groups';
 const appInfoText = 'Info';
+
 const contactUsText = 'Contact us';
+const callUsText = 'Call us';
+const emailUsText = 'Email us';
+
+
 const devByText = 'Developed by NyayoZangu Init Co. Ltd.';
 const addLinkText = 'Add link';
 const groupLinkText = 'Group link';
