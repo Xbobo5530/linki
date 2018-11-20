@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart';
 import 'package:linki/models/link.dart';
@@ -9,12 +8,12 @@ import 'package:linki/values/strings.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:share/share.dart';
 
 const _tag = 'LinkModel:';
-abstract class LinkModel extends Model{
 
-final _database = Firestore.instance;
+abstract class LinkModel extends Model {
+  final _database = Firestore.instance;
 
   Stream<QuerySnapshot> get linksStream =>
       _database.collection(LINKS_COLLECTION).snapshots();
@@ -24,8 +23,8 @@ final _database = Firestore.instance;
   StatusCode _deletingLinkStatus;
   StatusCode get deletingLinkStatus => _deletingLinkStatus;
 
-  Map<String,Link> _links = Map();
-  Map<String,Link> get links => _links;
+  Map<String, Link> _links = Map();
+  Map<String, Link> get links => _links;
 
   LinkiError _linkiErrorType;
   LinkiError get linkiError => _linkiErrorType;
@@ -42,10 +41,10 @@ final _database = Firestore.instance;
     });
     if (_hasError) return StatusCode.failed;
     List<DocumentSnapshot> documents = snapshot.documents;
-    Map<String,Link> tempList = Map();
+    Map<String, Link> tempList = Map();
     documents.forEach((document) {
       Link link = Link.fromSnapshot(document);
-      tempList.putIfAbsent(document.documentID, ()=>link);
+      tempList.putIfAbsent(document.documentID, () => link);
     });
 
     _links = tempList;
@@ -53,18 +52,15 @@ final _database = Firestore.instance;
     return StatusCode.success;
   }
 
-
   // final List<String> validUrls= [
   //   WHATSAPP_DOT_COM
   // ];
-
-  
 
   Future<StatusCode> submitLink(String url, User user) async {
     print('$_tag at submitLink');
     _submittingLinkStatus = StatusCode.waiting;
     notifyListeners();
-    if (!url.contains(WHATSAPP_URL_SCHEME)){
+    if (!url.contains(WHATSAPP_URL_SCHEME)) {
       _linkiErrorType = LinkiError.invalidUrlScheme;
       _submittingLinkStatus = StatusCode.failed;
       notifyListeners();
@@ -106,12 +102,13 @@ final _database = Firestore.instance;
     return body.substring(tagStartPos, tagEndPos);
   }
 
-  Future<StatusCode> _addLink(String url, title, imageUrl, description, User user) async {
+  Future<StatusCode> _addLink(
+      String url, title, imageUrl, description, User user) async {
     print('$_tag at _addLink');
     bool _hasError = false;
     final linkMap = {
       URL_FIELD: url,
-      CREATED_BY_FIELD : user.id,
+      CREATED_BY_FIELD: user.id,
       TITLE_FIELD: title,
       IMAGE_URL_FIELD: imageUrl,
       DESCRIPTION_FIELD: description,
@@ -129,7 +126,7 @@ final _database = Firestore.instance;
     return StatusCode.success;
   }
 
-  Future<StatusCode> deleteLink( String linkId) async {
+  Future<StatusCode> deleteLink(String linkId) async {
     print('$_tag at deleteLink');
     bool _hasError = false;
     await Firestore.instance
@@ -153,7 +150,7 @@ final _database = Firestore.instance;
     return _deletingLinkStatus;
   }
 
-openLink(String url) async {
+  openLink(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -162,12 +159,20 @@ openLink(String url) async {
   }
 
   initiateContact() async {
-      var url = CONTACT_URL;
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
+    final url = CONTACT_URL;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
     }
+  }
 
+  share(Link link) {
+    final _shareText = '${link.title}\n${link.url}\nshared from Linki app: $LINKI_DOWNLOAD_URL';
+    Share.share(_shareText);
+  }
+  report(Link link){
+    //TODO: handle report link
+    /// if a link has been reported more than 3 times, the link is automatically deleted
+  }
 }

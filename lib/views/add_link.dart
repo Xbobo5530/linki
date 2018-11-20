@@ -3,7 +3,6 @@ import 'package:linki/models/main_model.dart';
 import 'package:linki/values/status_code.dart';
 import 'package:linki/values/strings.dart';
 import 'dart:math' as math;
-
 import 'package:scoped_model/scoped_model.dart';
 
 const _tag = 'AddLinkDialog:';

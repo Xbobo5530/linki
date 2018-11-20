@@ -21,7 +21,7 @@ class LoginDialog extends StatelessWidget {
       switch (loginStatus) {
         case StatusCode.success:
           Navigator.pop(context);
-          if (intent == Intent.addLink) _showAddLinkDialog();
+          // if (intent == Intent.addLink) _showAddLinkDialog();
           break;
         default:
           print('$_tag unexpected login status code: $loginStatus');

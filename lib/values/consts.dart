@@ -1,6 +1,7 @@
 
 
 const APP_ICON = 'images/app_icon.png';
+const LINKI_DOWNLOAD_URL = 'https://goo.gl/t6vTxy';
 // collections
 const LINKS_COLLECTION = 'Links';
 const USERS_COLLECTION = 'Users';
@@ -17,3 +18,5 @@ const DESCRIPTION_FIELD = 'description';
 const BIO_FIELD = 'bio';
 
 const CONTACT_URL = 'tel: +2550713810803';
+
+const IS_ADMIN_FIELD = 'is_admin';
