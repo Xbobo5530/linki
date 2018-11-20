@@ -126,12 +126,12 @@ abstract class LinkModel extends Model {
     return StatusCode.success;
   }
 
-  Future<StatusCode> deleteLink(String linkId) async {
+  Future<StatusCode> deleteLink(Link link) async {
     print('$_tag at deleteLink');
     bool _hasError = false;
     await Firestore.instance
         .collection(LINKS_COLLECTION)
-        .document(linkId)
+        .document(link.id)
         .delete()
         .catchError((error) {
       print('$_tag error on deleting link document');
@@ -143,18 +143,18 @@ abstract class LinkModel extends Model {
       notifyListeners();
       return _deletingLinkStatus;
     }
-    _links.remove(linkId);
+    _links.remove(link.id);
 
     _deletingLinkStatus = StatusCode.success;
     notifyListeners();
     return _deletingLinkStatus;
   }
 
-  openLink(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+  openLink(Link link) async {
+    if (await canLaunch(link.url)) {
+      await launch(link.url);
     } else {
-      throw 'Could not launch $url';
+      throw 'Could not launch ${link.url}';
     }
   }
 

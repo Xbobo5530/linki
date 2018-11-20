@@ -19,10 +19,10 @@ class LinkItemView extends StatelessWidget {
     _handleMenuActions(MainModel model, MenuOption option) {
       switch (option) {
         case MenuOption.open:
-          model.openLink(link.url);
+          model.openLink(link);
           break;
         case MenuOption.delete:
-          model.deleteLink(link.url);
+          model.deleteLink(link);
           break;
         case MenuOption.share:
           model.share(link);
@@ -72,7 +72,7 @@ class LinkItemView extends StatelessWidget {
           title: Text(link.title),
           subtitle: Text(link.description),
           trailing: _buildPopUpMenuButton(model, isLinkOwner),
-          onTap: () => model.openLink(link.url),
+          onTap: () => model.openLink(link),
         );
       },
     );
