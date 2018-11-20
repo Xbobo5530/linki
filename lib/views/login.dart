@@ -24,12 +24,6 @@ class LoginView extends StatelessWidget {
           Navigator.pop(context);
           _showAddLinkDialog();
           break;
-        // case StatusCode.failed:
-        //   // Navigator.pop(context);
-        //   // Scaffold.of(context).showSnackBar(SnackBar(
-        //   //   content: Text(errorMessage),
-        //   ));
-          // break;
         default:
           print('$_tag unexpected login status code: $loginStatus');
       }
