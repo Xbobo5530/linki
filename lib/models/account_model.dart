@@ -15,6 +15,9 @@ abstract class AccountModel extends Model {
 
   StatusCode _loginStatus;
   StatusCode get loginStatus => _loginStatus;
+  StatusCode _logoutStatus;
+  StatusCode get logoutStatus => _logoutStatus;
+
   User _currentUser;
   User get currentUser => _currentUser;
   StatusCode _updatingCurrentUserStatus;
@@ -48,12 +51,12 @@ abstract class AccountModel extends Model {
       print('$_tag error on authenticatin user $error');
       _hasError = true;
     });
-    if (_hasError)  {
+    if (_hasError) {
       _loginStatus = StatusCode.failed;
       notifyListeners();
       return _loginStatus;
     }
-    if (user == null)  {
+    if (user == null) {
       _loginStatus = StatusCode.failed;
       notifyListeners();
       return _loginStatus;
@@ -74,6 +77,13 @@ abstract class AccountModel extends Model {
     if (_hasError) {
       _isLoggedIn = false;
       _updatingCurrentUserStatus = StatusCode.failed;
+      notifyListeners();
+      return _updatingCurrentUserStatus;
+    }
+
+    if (user == null) {
+      _isLoggedIn = false;
+      _updatingCurrentUserStatus = StatusCode.success;
       notifyListeners();
       return _updatingCurrentUserStatus;
     }
@@ -143,5 +153,23 @@ abstract class AccountModel extends Model {
     });
     if (_hasError) return StatusCode.failed;
     return StatusCode.success;
+  }
+
+  Future<StatusCode> logout() async {
+    print('$_tag at logout');
+    _logoutStatus = StatusCode.waiting;
+    notifyListeners();
+    bool _hasError = false;
+    await _auth.signOut().catchError((error) {
+      print('$_tag error on logging out');
+      _logoutStatus = StatusCode.failed;
+      notifyListeners();
+      _hasError = true;
+    });
+    if (_hasError) return _logoutStatus;
+    _logoutStatus = await updateLoginStatus();
+    notifyListeners();
+
+    return _loginStatus;
   }
 }

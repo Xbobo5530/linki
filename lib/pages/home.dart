@@ -1,35 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:linki/models/main_model.dart';
-import 'package:linki/pages/add_link.dart';
 import 'package:linki/values/consts.dart';
+import 'package:linki/values/status_code.dart';
 import 'package:linki/values/strings.dart';
 
-import 'package:linki/models/link.dart';
 import 'package:linki/pages/search_dialog.dart';
 import 'package:linki/views/add_link.dart';
 import 'package:linki/views/home_body.dart';
-// import 'package:linki/views/AddLinkFab.dart';
-import 'package:linki/views/link_item_view.dart';
 import 'package:linki/views/login.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-// const _tag = 'MyHomePage:';
+
+const _tag = 'MyHomePage:';
 
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Link> linkList = List<Link>();
-
-    void _initiateContact() async {
-      var url = CONTACT_URL;
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-    }
-
     _showInfoDialog() async {
       await showDialog(
           context: context,
@@ -38,15 +24,19 @@ class MyHomePage extends StatelessWidget {
               title: Text(appInfoText),
               content: Text(devByText),
               actions: <Widget>[
-                RaisedButton(
-                  color: Colors.white,
-                  textColor: Colors.black,
-                  child: Text(
-                    contactUsText,
-                  ),
-                  onPressed: () {
-                    _initiateContact();
-                    Navigator.pop(context);
+                ScopedModelDescendant<MainModel>(
+                  builder: (_, __, model) {
+                    return RaisedButton(
+                      color: Colors.white,
+                      textColor: Colors.black,
+                      child: Text(
+                        contactUsText,
+                      ),
+                      onPressed: () {
+                        model.initiateContact();
+                        Navigator.pop(context);
+                      },
+                    );
                   },
                 )
               ],
@@ -54,14 +44,102 @@ class MyHomePage extends StatelessWidget {
           });
     }
 
-    // _openSearchDialog() {
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (context) => SearchDialog(linkList),
-    //         fullscreenDialog: true),
-    //   );
-    // }
+    final _searchButton =
+        ScopedModelDescendant<MainModel>(builder: (_, __, model) {
+      return IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () => showSearch(
+                context: context,
+                delegate: SearchLinks(links: model.links),
+              ));
+    });
+
+    _handleLogout(MainModel model) async {
+      StatusCode logoutStatus = await model.logout();
+      switch (logoutStatus) {
+        case StatusCode.success:
+          Navigator.pop(context);
+          break;
+        default:
+          print('$_tag unexpected logout status $logoutStatus');
+      }
+    }
+
+    _showConfirmmationDialog() async => showDialog(
+        context: context,
+        builder: (context) => ScopedModelDescendant<MainModel>(
+            builder: (_, __, model) => SimpleDialog(
+                  title: Text(logoutText),
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 8.0),
+                      child: Text(
+                        model.logoutStatus == StatusCode.failed
+                            ? errorMessage
+                            : confirmLogoutText,
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          FlatButton(
+                            child: Text(
+                              model.logoutStatus == StatusCode.waiting
+                                  ? waitText.toUpperCase()
+                                  : logoutText.toUpperCase(),
+                              style: TextStyle(color: Colors.deepOrange),
+                            ),
+                            onPressed: () => _handleLogout(model),
+                          ),
+                          FlatButton(
+                            child: Text(cancelText.toUpperCase()),
+                            onPressed: () => Navigator.pop(context),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                )));
+
+    _showLoginDialog(MainModel model, Intent intent) async => await showDialog(
+        context: context, builder: (context) => LoginDialog(intent: intent));
+
+    _handleSelectionMenuOption(MainModel model, MenuOption option) {
+      switch (option) {
+        case MenuOption.appInfo:
+          _showInfoDialog();
+          break;
+        case MenuOption.logout:
+          _showConfirmmationDialog();
+          break;
+        case MenuOption.login:
+          _showLoginDialog(model, Intent.login);
+          break;
+        default:
+          print('$_tag unexpected option $option');
+      }
+    }
+
+    Widget _morePopUpButton =
+        ScopedModelDescendant<MainModel>(builder: (_, __, model) {
+      return PopupMenuButton<MenuOption>(
+          onSelected: (option) => _handleSelectionMenuOption(model, option),
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuOption>>[
+                PopupMenuItem(
+                  value: MenuOption.appInfo,
+                  child: Text(appInfoText),
+                ),
+                PopupMenuItem(
+                  value:
+                      model.isLoggedIn ? MenuOption.logout : MenuOption.login,
+                  child: Text(model.isLoggedIn ? logoutText : loginText),
+                )
+              ]);
+    });
 
     final _appBar = AppBar(
       elevation: 0.0,
@@ -74,92 +152,28 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.info),
-          onPressed: () => _showInfoDialog(),
-        ),
-        ScopedModelDescendant<MainModel>(builder: (_, __, model) {
-          return IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () => showSearch(
-                    context: context,
-                    delegate: SearchLinks(links: model.links),
-                  ));
-        })
+        _searchButton,
+        _morePopUpButton,
       ],
     );
 
-    // final _bodySection = ScopedModelDescendant<MainModel>(
-    //   builder: (_, __, model) {
-    //     return StreamBuilder(
-    //       stream: model.linksStream,
-    //       builder: (_, snapshot) {
-    //         if (!snapshot.hasData)
-    //           return Center(child: CircularProgressIndicator());
+    _showAddLinkDialog() async =>
+        await showDialog(context: context, builder: (_) => AddLinkDialog());
 
-    //         return ListView.builder(
-    //           itemCount: snapshot.data.documents.length,
-    //           itemBuilder: (_, index) {
-    //             var document = snapshot.data.documents[index];
-    //             var link = Link.fromSnapshot(document);
-
-    //             return ScopedModelDescendant<MainModel>(
-    //               builder: (_, __, model) {
-    //                 return Dismissible(
-    //                   key: Key(link.id),
-    //                   child: LinkItemView(
-    //                     link: link,
-    //                   ),
-    //                   background: Container(
-    //                     color: Colors.red,
-    //                     child: Icon(Icons.delete),
-    //                   ),
-    //                   onDismissed: (_) => model.deleteLink(index, link.id),
-    //                 );
-    //               },
-    //             );
-    //           },
-    //         );
-    //       },
-    //     );
-    //   },
-    // );
-
-    
-
-    _showDialog(MainModel model)async => await showDialog(
-      context: context,
-      builder: (context)=> SimpleDialog(
-        title: Text(model.isLoggedIn
-        ? addLinkText
-        : loginText),
-        children: <Widget>[
-          model.isLoggedIn
-          ? AddLinkView()
-          : LoginView()
-        ],
-      )
+    final _fab = ScopedModelDescendant<MainModel>(
+      builder: (_, __, model) {
+        return FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: model.isLoggedIn
+                ? () => _showAddLinkDialog()
+                : () => _showLoginDialog(model, Intent.addLink));
+      },
     );
-
-    final _fab =  
-    ScopedModelDescendant<MainModel>(builder: (_,__,model){
-
-      return FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _showDialog(model)
-        
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (_) => AddLinkPage(), fullscreenDialog: true)),
-      );
-    },);
-    
 
     return Scaffold(
       appBar: _appBar,
       body: HomeBodyView(),
-      floatingActionButton:_fab,
+      floatingActionButton: _fab,
     );
   }
 }

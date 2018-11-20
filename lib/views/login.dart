@@ -7,67 +7,72 @@ import 'package:scoped_model/scoped_model.dart';
 
 const _tag = 'LoginView:';
 
-class LoginView extends StatelessWidget {
+class LoginDialog extends StatelessWidget {
+  final Intent intent;
+
+  const LoginDialog({Key key, this.intent}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    _showAddLinkDialog() async => await showDialog(
-        context: context,
-        builder: (context) => SimpleDialog(
-              title: Text(addLinkText),
-              children: <Widget>[AddLinkView()],
-            ));
+    _showAddLinkDialog() async =>
+        await showDialog(context: context, builder: (context) => AddLinkDialog());
 
     Future<void> _handleLogin(BuildContext context, MainModel model) async {
       StatusCode loginStatus = await model.signInWithGoole();
       switch (loginStatus) {
         case StatusCode.success:
           Navigator.pop(context);
-          _showAddLinkDialog();
+          if (intent == Intent.addLink) _showAddLinkDialog();
           break;
         default:
           print('$_tag unexpected login status code: $loginStatus');
       }
     }
 
-    return ScopedModelDescendant<MainModel>(builder: (_, __, model) {
-      return Column(children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Text(
-            model.loginStatus == StatusCode.failed
-            ? errorMessage
-            : loginMessage,
-            style: TextStyle(fontSize: 16.0, 
-            color: model.loginStatus == StatusCode.failed
-            ? Colors.red
-            : Colors.black),
+    return SimpleDialog(
+      title: Text(loginText),
+          children:<Widget> [ScopedModelDescendant<MainModel>(builder: (_, __, model) {
+        return Column(children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Text(
+              model.loginStatus == StatusCode.failed
+                  ? errorMessage
+                  : loginMessage,
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: model.loginStatus == StatusCode.failed
+                      ? Colors.red
+                      : Colors.black),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  FlatButton(
-                      textColor: Colors.deepOrange,
-                      child: Text(
-                        loginText.toUpperCase(),
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                      onPressed: () => _handleLogin(context, model))
-                ],
-              ),
-              FlatButton(
-                child: Text(cancelText.toUpperCase()),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    FlatButton(
+                        textColor: Colors.deepOrange,
+                        child: Text(
+                          model.loginStatus == StatusCode.waiting
+                              ? waitText.toUpperCase()
+                              : loginText.toUpperCase(),
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                        onPressed: () => _handleLogin(context, model))
+                  ],
+                ),
+                FlatButton(
+                  child: Text(cancelText.toUpperCase()),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
           ),
-        ),
-      ]);
-    });
+        ]);
+      })],
+    );
   }
 }

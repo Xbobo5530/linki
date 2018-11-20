@@ -26,22 +26,22 @@ class LinkItemView extends StatelessWidget {
           ),
           title: Text(link.title),
           subtitle: Text(link.description),
-          trailing: PopupMenuButton<LinkOption>(
+          trailing: PopupMenuButton<MenuOption>(
             itemBuilder: (
               _,
             ) =>
-                <PopupMenuEntry<LinkOption>>[
+                <PopupMenuEntry<MenuOption>>[
                   const PopupMenuItem(
                     child: Text(openText),
-                    value: LinkOption.open,
+                    value: MenuOption.open,
                   ),
                   const PopupMenuItem(
                     child: Text(shareText),
-                    value: LinkOption.share,
+                    value: MenuOption.share,
                   ),
                   PopupMenuItem(
                     child: Text(isLinkOwner ? deleteText : reportText),
-                    value: isLinkOwner ? LinkOption.share : LinkOption.report,
+                    value: isLinkOwner ? MenuOption.share : MenuOption.report,
                   )
                 ],
           ),

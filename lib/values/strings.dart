@@ -14,13 +14,14 @@ const enterValidLinktext = 'Please enter a valid link';
 const searchText = 'Search';
 const searchHintText = 'Search for groups';
 const searchLabelText = 'Search for groups';
-const appInfoText = 'Linki';
+const appInfoText = 'Info';
 const contactUsText = 'Contact us';
 const devByText = 'Developed by NyayoZangu Init Co. Ltd.';
 const addLinkText = 'Add link';
 const groupLinkText = 'Group link';
 
 const loginText = 'Login';
+const logoutText = 'Logout';
 
 //options
 const openText = 'Open';
@@ -29,5 +30,8 @@ const deleteText = 'Delete';
 const shareText = 'Share';
 const reportText = 'Report';
 
+const waitText = 'Please wait...';
+
 //messages
 const loginMessage = 'You must be logged in to add a new link.\nClick the Login button to sigin in with Google.';
+const confirmLogoutText = 'Are you sure you want to logout?';

@@ -144,4 +144,13 @@ openLink(String url) async {
     }
   }
 
+  initiateContact() async {
+      var url = CONTACT_URL;
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
 }

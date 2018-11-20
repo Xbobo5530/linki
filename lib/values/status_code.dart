@@ -1,2 +1,3 @@
 enum StatusCode { success, waiting, failed }
-enum LinkOption {open,share, delete, edit , report}
+enum MenuOption {open,share, delete, edit , report, logout,login, myLinks, appInfo}
+enum Intent{login, addLink}
