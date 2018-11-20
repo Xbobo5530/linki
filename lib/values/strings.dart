@@ -19,3 +19,15 @@ const contactUsText = 'Contact us';
 const devByText = 'Developed by NyayoZangu Init Co. Ltd.';
 const addLinkText = 'Add link';
 const groupLinkText = 'Group link';
+
+const loginText = 'Login';
+
+//options
+const openText = 'Open';
+const editText = 'Edit';
+const deleteText = 'Delete';
+const shareText = 'Share';
+const reportText = 'Report';
+
+//messages
+const loginMessage = 'You must be logged in to add a new link.\nClick the Login button to sigin in with Google.';

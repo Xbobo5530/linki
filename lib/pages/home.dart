@@ -6,8 +6,11 @@ import 'package:linki/values/strings.dart';
 
 import 'package:linki/models/link.dart';
 import 'package:linki/pages/search_dialog.dart';
+import 'package:linki/views/add_link.dart';
+import 'package:linki/views/home_body.dart';
 // import 'package:linki/views/AddLinkFab.dart';
 import 'package:linki/views/link_item_view.dart';
+import 'package:linki/views/login.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -51,14 +54,14 @@ class MyHomePage extends StatelessWidget {
           });
     }
 
-    _openSearchDialog() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => SearchDialog(linkList),
-            fullscreenDialog: true),
-      );
-    }
+    // _openSearchDialog() {
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => SearchDialog(linkList),
+    //         fullscreenDialog: true),
+    //   );
+    // }
 
     final _appBar = AppBar(
       elevation: 0.0,
@@ -75,55 +78,88 @@ class MyHomePage extends StatelessWidget {
           icon: Icon(Icons.info),
           onPressed: () => _showInfoDialog(),
         ),
-        IconButton(
-            icon: Icon(Icons.search), onPressed: () => _openSearchDialog())
+        ScopedModelDescendant<MainModel>(builder: (_, __, model) {
+          return IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () => showSearch(
+                    context: context,
+                    delegate: SearchLinks(links: model.links),
+                  ));
+        })
       ],
     );
 
-    final _bodySection = ScopedModelDescendant<MainModel>(
-      builder: (_, __, model) {
-        return StreamBuilder(
-          stream: model.linksStream,
-          builder: (_, snapshot) {
-            if (!snapshot.hasData)
-              return Center(child: CircularProgressIndicator());
+    // final _bodySection = ScopedModelDescendant<MainModel>(
+    //   builder: (_, __, model) {
+    //     return StreamBuilder(
+    //       stream: model.linksStream,
+    //       builder: (_, snapshot) {
+    //         if (!snapshot.hasData)
+    //           return Center(child: CircularProgressIndicator());
 
-            return ListView.builder(
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (_, index) {
-                var document = snapshot.data.documents[index];
-                var link = Link.fromSnapshot(document);
+    //         return ListView.builder(
+    //           itemCount: snapshot.data.documents.length,
+    //           itemBuilder: (_, index) {
+    //             var document = snapshot.data.documents[index];
+    //             var link = Link.fromSnapshot(document);
 
-                return ScopedModelDescendant<MainModel>(
-                  builder: (_, __, model) {
-                    return Dismissible(
-                      key: Key(link.id),
-                      child: LinkItemView(
-                        link: link,
-                      ),
-                      background: Container(
-                        color: Colors.red,
-                        child: Icon(Icons.delete),
-                      ),
-                      onDismissed: (_) => model.deleteLink(index, link.id),
-                    );
-                  },
-                );
-              },
-            );
-          },
-        );
-      },
+    //             return ScopedModelDescendant<MainModel>(
+    //               builder: (_, __, model) {
+    //                 return Dismissible(
+    //                   key: Key(link.id),
+    //                   child: LinkItemView(
+    //                     link: link,
+    //                   ),
+    //                   background: Container(
+    //                     color: Colors.red,
+    //                     child: Icon(Icons.delete),
+    //                   ),
+    //                   onDismissed: (_) => model.deleteLink(index, link.id),
+    //                 );
+    //               },
+    //             );
+    //           },
+    //         );
+    //       },
+    //     );
+    //   },
+    // );
+
+    
+
+    _showDialog(MainModel model)async => await showDialog(
+      context: context,
+      builder: (context)=> SimpleDialog(
+        title: Text(model.isLoggedIn
+        ? addLinkText
+        : loginText),
+        children: <Widget>[
+          model.isLoggedIn
+          ? AddLinkView()
+          : LoginView()
+        ],
+      )
     );
+
+    final _fab =  
+    ScopedModelDescendant<MainModel>(builder: (_,__,model){
+
+      return FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _showDialog(model)
+        
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (_) => AddLinkPage(), fullscreenDialog: true)),
+      );
+    },);
+    
 
     return Scaffold(
       appBar: _appBar,
-      body: _bodySection,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (_) => AddLinkPage(), fullscreenDialog: true)),
-      ),
+      body: HomeBodyView(),
+      floatingActionButton:_fab,
     );
   }
 }

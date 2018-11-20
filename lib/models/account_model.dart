@@ -32,7 +32,11 @@ abstract class AccountModel extends Model {
       print('$_tag error on signing in with google: $error');
       _hasError = true;
     });
-    if (_hasError) return StatusCode.failed;
+    if (_hasError) {
+      _loginStatus = StatusCode.failed;
+      notifyListeners();
+      return _loginStatus;
+    }
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
     final FirebaseUser user = await _auth
@@ -44,8 +48,16 @@ abstract class AccountModel extends Model {
       print('$_tag error on authenticatin user $error');
       _hasError = true;
     });
-    if (_hasError) return StatusCode.failed;
-    if (user == null) return StatusCode.failed;
+    if (_hasError)  {
+      _loginStatus = StatusCode.failed;
+      notifyListeners();
+      return _loginStatus;
+    }
+    if (user == null)  {
+      _loginStatus = StatusCode.failed;
+      notifyListeners();
+      return _loginStatus;
+    }
     _loginStatus = await _checkIfUserExists(user);
     updateLoginStatus();
     notifyListeners();

@@ -1,67 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:linki/models/link.dart';
-import 'package:linki/values/strings.dart';
-import 'package:linki/views/link_item_view.dart';
 
-class SearchDialog extends StatefulWidget {
-  final List<Link> linkList;
-  SearchDialog(this.linkList);
+class SearchLinks extends SearchDelegate{
+  final Map<String, Link> links;
+
+  SearchLinks({this.links});
   @override
-  _SearchDialogState createState() => _SearchDialogState(linkList);
-}
-
-class _SearchDialogState extends State<SearchDialog> {
-  final List<Link> linkList;
-  var _searchText = '';
-  List<Link> searchResults = [];
-  var _searchFieldController = TextEditingController();
-
-  _SearchDialogState(this.linkList) {
-    _searchFieldController.addListener(() {
-      if (_searchFieldController.text.isEmpty) {
-        setState(() {
-          _searchText = '';
-          searchResults = linkList;
-        });
-      } else {
-        setState(() {
-          _searchText = _searchFieldController.text;
-        });
-      }
-    });
+  List<Widget> buildActions(BuildContext context) {
+    // TODO: implement buildActions
+    return null;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: TextField(
-            decoration: InputDecoration(
-              hintText: searchHintText,
-              prefixIcon: Icon(Icons.search),
-            ),
-            textInputAction: TextInputAction.search,
-            autofocus: true,
-            controller: _searchFieldController,
-          ),
-        ),
-        body: ListView.builder(
-            itemCount: searchResults.length,
-            itemBuilder: (context, index) {
-              if (_searchText.isNotEmpty) {
-                List<Link> tempList = [];
-                for (Link link in linkList) {
-                  if (link.title
-                      .toLowerCase()
-                      .contains(_searchText.toLowerCase())) {
-                    tempList.add(link);
-                  }
-                }
-                searchResults = tempList;
-              }
-              if (searchResults.isNotEmpty)
-                return LinkItemView(link: searchResults[index]);
-              return Container();
-            }));
+  Widget buildLeading(BuildContext context) {
+    // TODO: implement buildLeading
+    return null;
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // TODO: implement buildResults
+    return null;
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // TODO: implement buildSuggestions
+    return null;
   }
 }

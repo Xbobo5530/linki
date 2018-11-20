@@ -6,6 +6,7 @@ import 'package:linki/values/consts.dart';
 import 'package:linki/values/status_code.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 
 const _tag = 'LinkModel:';
@@ -21,8 +22,8 @@ final _database = Firestore.instance;
   StatusCode _deletingLinkStatus;
   StatusCode get deletingLinkStatus => _deletingLinkStatus;
 
-  List<Link> _links = <Link>[];
-  List<Link> get links => _links;
+  Map<String,Link> _links = Map();
+  Map<String,Link> get links => _links;
 
   Future<StatusCode> getLinks() async {
     print('$_tag at getLinks');
@@ -36,10 +37,10 @@ final _database = Firestore.instance;
     });
     if (_hasError) return StatusCode.failed;
     List<DocumentSnapshot> documents = snapshot.documents;
-    List<Link> tempList = <Link>[];
+    Map<String,Link> tempList = Map();
     documents.forEach((document) {
       Link link = Link.fromSnapshot(document);
-      tempList.add(link);
+      tempList.putIfAbsent(document.documentID, ()=>link);
     });
 
     _links = tempList;
@@ -111,7 +112,7 @@ final _database = Firestore.instance;
     return StatusCode.success;
   }
 
-  Future<StatusCode> deleteLink(int index, String linkId) async {
+  Future<StatusCode> deleteLink( String linkId) async {
     print('$_tag at deleteLink');
     bool _hasError = false;
     await Firestore.instance
@@ -128,10 +129,19 @@ final _database = Firestore.instance;
       notifyListeners();
       return _deletingLinkStatus;
     }
-    _links.removeAt(index);
+    _links.remove(linkId);
 
     _deletingLinkStatus = StatusCode.success;
     notifyListeners();
     return _deletingLinkStatus;
   }
+
+openLink(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
 }
