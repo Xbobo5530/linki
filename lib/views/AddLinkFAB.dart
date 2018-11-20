@@ -53,7 +53,7 @@ class AddLinkFAB extends StatelessWidget {
 
   void _submit(BuildContext context, TextEditingController controller) {
     String url = mController.text;
-    if (url.contains(WHATSAPP_DOT_COM)) {
+    if (url.contains(WHATSAPP_URL_SCHEME)) {
       _processLink(url);
       controller.clear();
       Navigator.pop(context);

@@ -2,8 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart';
 import 'package:linki/models/link.dart';
+import 'package:linki/models/user.dart';
 import 'package:linki/values/consts.dart';
 import 'package:linki/values/status_code.dart';
+import 'package:linki/values/strings.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -24,6 +26,9 @@ final _database = Firestore.instance;
 
   Map<String,Link> _links = Map();
   Map<String,Link> get links => _links;
+
+  LinkiError _linkiErrorType;
+  LinkiError get linkiError => _linkiErrorType;
 
   Future<StatusCode> getLinks() async {
     print('$_tag at getLinks');
@@ -48,18 +53,29 @@ final _database = Firestore.instance;
     return StatusCode.success;
   }
 
+
+  // final List<String> validUrls= [
+  //   WHATSAPP_DOT_COM
+  // ];
+
   
 
-  Future<StatusCode> submitLink(String url) async {
+  Future<StatusCode> submitLink(String url, User user) async {
     print('$_tag at submitLink');
     _submittingLinkStatus = StatusCode.waiting;
     notifyListeners();
-    _submittingLinkStatus = await _processLink(url);
+    if (!url.contains(WHATSAPP_URL_SCHEME)){
+      _linkiErrorType = LinkiError.invalidUrlScheme;
+      _submittingLinkStatus = StatusCode.failed;
+      notifyListeners();
+      return _submittingLinkStatus;
+    }
+    _submittingLinkStatus = await _processLink(url, user);
     notifyListeners();
     return _submittingLinkStatus;
   }
 
-  Future<StatusCode> _processLink(String url) async {
+  Future<StatusCode> _processLink(String url, User user) async {
     print('$_tag at process link');
     bool _hasError = false;
     Response response =
@@ -77,7 +93,7 @@ final _database = Firestore.instance;
     final imageUrl = _getValueFrom(response, imageUrlTag);
     final description = _getValueFrom(response, descriptionTag);
 
-    return await _addLink(url, title, imageUrl, description);
+    return await _addLink(url, title, imageUrl, description, user);
   }
 
   String _getValueFrom(Response response, String tag) {
@@ -90,11 +106,12 @@ final _database = Firestore.instance;
     return body.substring(tagStartPos, tagEndPos);
   }
 
-  Future<StatusCode> _addLink(String url, title, imageUrl, description) async {
+  Future<StatusCode> _addLink(String url, title, imageUrl, description, User user) async {
     print('$_tag at _addLink');
     bool _hasError = false;
     final linkMap = {
       URL_FIELD: url,
+      CREATED_BY_FIELD : user.id,
       TITLE_FIELD: title,
       IMAGE_URL_FIELD: imageUrl,
       DESCRIPTION_FIELD: description,

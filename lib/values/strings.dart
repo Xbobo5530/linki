@@ -2,7 +2,7 @@
 const APP_NAME = 'Linki';
 
 
-const WHATSAPP_DOT_COM = 'whatsapp.com';
+const WHATSAPP_URL_SCHEME = 'https://chat.whatsapp.com/';
 
 const submitText = 'Submit';
 const enterLinkLabelText = 'Enter a WhatsApp Group link';

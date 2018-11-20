@@ -14,7 +14,7 @@ class AddLinkPage extends StatelessWidget {
     _handleSubmitLink(BuildContext context, MainModel model) async {
       final url = mController.text.trim();
       if (url.isEmpty) return null;
-      if (url.contains(WHATSAPP_DOT_COM)) {
+      if (url.contains(WHATSAPP_URL_SCHEME)) {
         // hanle whatsapp link
         StatusCode statusCode = await model.submitLink(url);
         switch (statusCode) {
