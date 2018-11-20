@@ -12,8 +12,7 @@ build/
 ios/Runner/GoogleService-Info.plist
 ios/Runner/Info.plist
 android/app/google-services.json
-*.json
-*.plist
+
 
 
 ios/Runner/Info.plist
