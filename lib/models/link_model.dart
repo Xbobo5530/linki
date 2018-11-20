@@ -31,6 +31,10 @@ abstract class LinkModel extends Model {
   LinkiError _linkiErrorType;
   LinkiError get linkiError => _linkiErrorType;
 
+  Link _lastSubmittedLink;
+
+  List<String> _urlList = <String>[];
+
   Future<StatusCode> getLinks() async {
     print('$_tag at getLinks');
     bool _hasError = false;
@@ -51,12 +55,28 @@ abstract class LinkModel extends Model {
 
     _links = tempList;
     notifyListeners();
+    _makeUrlList();
     return StatusCode.success;
+  }
+
+
+  _makeUrlList() {
+    print('$_tag at _makeUrlList');
+    List<String> tempUrlList = <String>[];
+    _links.forEach((id, link) {
+      tempUrlList.add(link.url);
+    });
+    _urlList = tempUrlList;
   }
 
   // final List<String> validUrls= [
   //   WHATSAPP_DOT_COM
   // ];
+
+  resetSubmitStatus() {
+    _submittingLinkStatus = null;
+    _linkiErrorType = null;
+  }
 
   Future<StatusCode> submitLink(String url, User user) async {
     print('$_tag at submitLink');
@@ -68,9 +88,28 @@ abstract class LinkModel extends Model {
       notifyListeners();
       return _submittingLinkStatus;
     }
+    if (_linkAlreadyExists(url)) {
+      _linkiErrorType = LinkiError.urlAlreadyExists;
+      _submittingLinkStatus = StatusCode.failed;
+      return _submittingLinkStatus;
+    }
     _submittingLinkStatus = await _processLink(url, user);
     notifyListeners();
+    
+    if (_submittingLinkStatus == StatusCode.success) _updateLinks();
     return _submittingLinkStatus;
+  }
+
+  /// updates the local list of links after [currentUser] submits a new link
+  /// it runs after the [submitLink()] is ran
+  _updateLinks(){
+    _links.putIfAbsent(_lastSubmittedLink.id, ()=>_lastSubmittedLink);
+  }
+
+  bool _linkAlreadyExists(String url) {
+    print('$_tag at _linkAlreadyExists');
+
+    return _urlList.contains(url);
   }
 
   Future<StatusCode> _processLink(String url, User user) async {
@@ -126,6 +165,7 @@ abstract class LinkModel extends Model {
 
     if (_hasError) return StatusCode.failed;
     _createLinkRefForUser(documentRef, user);
+    _lastSubmittedLink = await _getLinkFromId(documentRef.documentID);
     return StatusCode.success;
   }
 
@@ -212,5 +252,20 @@ abstract class LinkModel extends Model {
   report(Link link) {
     //TODO: handle report link
     /// if a link has been reported more than 3 times, the link is automatically deleted
+  }
+
+  Future<Link> _getLinkFromId(String id) async {
+    print('$_tag at getLinkFromId');
+    bool _hasError = false;
+    DocumentSnapshot document = await _database
+        .collection(LINKS_COLLECTION)
+        .document(id)
+        .get()
+        .catchError((error) {
+      print('$_tag error on getting linkg document from id');
+      _hasError = true;
+    });
+    if (_hasError || !document.exists) return null;
+    return Link.fromSnapshot(document);
   }
 }

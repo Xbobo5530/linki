@@ -11,25 +11,31 @@ class AddLinkDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _mController = TextEditingController();
-    final _textField = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: TextField(
-          controller: _mController,
-          cursorColor: Colors.deepOrange,
-          autofocus: true,
-          maxLines: null,
-          style: TextStyle(
-            color: Colors.blue,
-            decoration: TextDecoration.underline,
-          ),
-          decoration: InputDecoration(
-              hintText: enterLinkLabelText,
-              hintStyle: TextStyle(
-                decoration: TextDecoration.none,
+    _buildTextField(MainModel model) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: TextField(
+              controller: _mController,
+              cursorColor: Colors.deepOrange,
+              autofocus: true,
+              maxLines: null,
+              style: TextStyle(
+                color: model.submittingLinkStatus == StatusCode.failed
+                    ? Colors.red
+                    : Colors.blue,
+                decoration: model.submittingLinkStatus == StatusCode.failed
+                    ? TextDecoration.none
+                    : TextDecoration.underline,
               ),
-              prefixIcon: Transform.rotate(
-                  angle: -math.pi / 4, child: Icon(Icons.link)))),
-    );
+              decoration: InputDecoration(
+                  hintText: model.submittingLinkStatus == StatusCode.failed
+                      ? errorMessage
+                      : enterLinkLabelText,
+                  hintStyle: TextStyle(
+                    decoration: TextDecoration.none,
+                  ),
+                  prefixIcon: Transform.rotate(
+                      angle: -math.pi / 4, child: Icon(Icons.link)))),
+        );
 
     _handleSubmit(MainModel model) async {
       final url = _mController.text.trim();
@@ -53,12 +59,15 @@ class AddLinkDialog extends StatelessWidget {
           onPressed: () => _handleSubmit(model),
         );
 
-    final _cancelButton = FlatButton(
-      child: Text(
-        cancelText.toUpperCase(),
-      ),
-      onPressed: () => Navigator.pop(context),
-    );
+    _buildCancelButton(MainModel model) => FlatButton(
+          child: Text(
+            cancelText.toUpperCase(),
+          ),
+          onPressed: () {
+            model.resetSubmitStatus();
+            Navigator.pop(context);
+          },
+        );
 
     Widget _buildActions(MainModel model) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -66,17 +75,32 @@ class AddLinkDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               _buildSubmitButton(model),
-              _cancelButton,
+              _buildCancelButton(model),
             ],
           ),
         );
+    _getErrorMessage(LinkiError type) {
+      switch (type) {
+        case LinkiError.invalidUrlScheme:
+          return invalidUrlErrorMessage;
+          break;
+        case LinkiError.urlAlreadyExists:
+          return duplicateUrlErrorMessage;
+          break;
+        default:
+          print('$_tag uexpected error type: $type');
+          return '';
+      }
+    }
+
+    _buildMessageSection(MainModel model) =>
+        Text(_getErrorMessage(model.linkiError));
 
     return ScopedModelDescendant<MainModel>(
       builder: (_, __, model) => SimpleDialog(
             title: Text(addLinkText),
             children: model.submittingLinkStatus == StatusCode.waiting
-                ? 
-                <Widget>[
+                ? <Widget>[
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(40.0),
@@ -85,7 +109,10 @@ class AddLinkDialog extends StatelessWidget {
                     )
                   ]
                 : <Widget>[
-                    _textField,
+                    model.linkiError != null
+                        ? _buildMessageSection(model)
+                        : Container(),
+                    _buildTextField(model),
                     _buildActions(model),
                   ],
           ),

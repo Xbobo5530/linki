@@ -40,3 +40,5 @@ const waitText = 'Please wait...';
 //messages
 const loginMessage = 'You must be logged in to add a new link.\nClick the Login button to sigin in with Google.';
 const confirmLogoutText = 'Are you sure you want to logout?';
+const invalidUrlErrorMessage = 'Invalid Url, pleaes enter a valid WhatsApp group invitation url';
+const duplicateUrlErrorMessage = 'This group has already been added';
