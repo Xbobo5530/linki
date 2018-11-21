@@ -1,6 +1,6 @@
 # linki
 
-A new Flutter application.
+_A community based app for links to social media groups._
 
 ## Intro
 Linki is a simple app that shows an interactive list of links to social media groupps.
