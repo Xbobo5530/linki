@@ -144,11 +144,16 @@ class MyHomePage extends StatelessWidget {
 
     final _fab = ScopedModelDescendant<MainModel>(
       builder: (_, __, model) {
-        return FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: model.isLoggedIn
-                ? () => _showAddLinkDialog()
-                : () => _showLoginDialog(model, Intent.addLink));
+        return Transform.scale(
+          scale: 3.0,
+          origin: Offset(-5.0, -5.0),
+          child: FloatingActionButton(
+              elevation: 0.0,
+              child: Icon(Icons.add),
+              onPressed: model.isLoggedIn
+                  ? () => _showAddLinkDialog()
+                  : () => _showLoginDialog(model, Intent.addLink)),
+        );
       },
     );
 
