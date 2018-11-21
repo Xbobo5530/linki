@@ -24,15 +24,11 @@ abstract class LinkModel extends Model {
   StatusCode get submittingLinkStatus => _submittingLinkStatus;
   StatusCode _deletingLinkStatus;
   StatusCode get deletingLinkStatus => _deletingLinkStatus;
-
   Map<String, Link> _links = Map();
   Map<String, Link> get links => _links;
-
   LinkiError _linkiErrorType;
   LinkiError get linkiError => _linkiErrorType;
-
   Link _lastSubmittedLink;
-
   List<String> _urlList = <String>[];
 
   Future<StatusCode> getLinks() async {
@@ -59,7 +55,6 @@ abstract class LinkModel extends Model {
     return StatusCode.success;
   }
 
-
   _makeUrlList() {
     print('$_tag at _makeUrlList');
     List<String> tempUrlList = <String>[];
@@ -69,13 +64,10 @@ abstract class LinkModel extends Model {
     _urlList = tempUrlList;
   }
 
-  // final List<String> validUrls= [
-  //   WHATSAPP_DOT_COM
-  // ];
-
   resetSubmitStatus() {
     _submittingLinkStatus = null;
     _linkiErrorType = null;
+    notifyListeners();
   }
 
   Future<StatusCode> submitLink(String url, User user) async {
@@ -95,15 +87,15 @@ abstract class LinkModel extends Model {
     }
     _submittingLinkStatus = await _processLink(url, user);
     notifyListeners();
-    
+
     if (_submittingLinkStatus == StatusCode.success) _updateLinks();
     return _submittingLinkStatus;
   }
 
   /// updates the local list of links after [currentUser] submits a new link
   /// it runs after the [submitLink()] is ran
-  _updateLinks(){
-    _links.putIfAbsent(_lastSubmittedLink.id, ()=>_lastSubmittedLink);
+  _updateLinks() {
+    _links.putIfAbsent(_lastSubmittedLink.id, () => _lastSubmittedLink);
   }
 
   bool _linkAlreadyExists(String url) {
@@ -245,13 +237,37 @@ abstract class LinkModel extends Model {
 
   share(Link link) {
     final _shareText =
-        '${link.title}\n${link.url}\nshared from Linki app: $LINKI_DOWNLOAD_URL';
+        '${link.title}\n${link.url}\nshared from Linki: $LINKI_DOWNLOAD_URL';
     Share.share(_shareText);
   }
 
-  report(Link link) {
-    //TODO: handle report link
-    /// if a link has been reported more than 3 times, the link is automatically deleted
+  Future<StatusCode> report(Link link) async {
+    final reports = link.reports;
+    if (reports == MAX_ALLOWED_REPORTS) {
+      deleteLink(link);
+      return StatusCode.success;
+    }
+    return await _updateReports(link);
+  }
+
+  Future<StatusCode> _updateReports(Link link) async {
+    print('$_tag at _createFirstReport');
+    bool _hasError = false;
+    Map<String, int> reportMap = {REPORTS_FIELD: 1};
+
+    await _database.runTransaction((transaction) async {
+      DocumentSnapshot freshSnap = await transaction
+          .get(_database.collection(LINKS_COLLECTION).document(link.id));
+      if (freshSnap[REPORTS_FIELD] == null)
+        await freshSnap.reference.updateData(reportMap).catchError((error) {
+          print('$_tag error on creating first report: $error');
+          _hasError = true;
+        });
+      await transaction.update(
+          freshSnap.reference, {REPORTS_FIELD: freshSnap[REPORTS_FIELD] + 1});
+    });
+    if (_hasError) return StatusCode.failed;
+    return StatusCode.success;
   }
 
   Future<Link> _getLinkFromId(String id) async {

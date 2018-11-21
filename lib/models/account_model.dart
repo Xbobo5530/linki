@@ -20,8 +20,8 @@ abstract class AccountModel extends Model {
 
   User _currentUser;
   User get currentUser => _currentUser;
-  StatusCode _updatingCurrentUserStatus;
-  StatusCode get updatingCurrentUserStatus => _updatingCurrentUserStatus;
+  StatusCode _updatingLoginStatus;
+  StatusCode get updatingCurrentUserStatus => _updatingLoginStatus;
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
 
@@ -76,21 +76,22 @@ abstract class AccountModel extends Model {
     });
     if (_hasError) {
       _isLoggedIn = false;
-      _updatingCurrentUserStatus = StatusCode.failed;
+      _updatingLoginStatus = StatusCode.failed;
       notifyListeners();
-      return _updatingCurrentUserStatus;
+      return _updatingLoginStatus;
     }
 
     if (user == null) {
       _isLoggedIn = false;
-      _updatingCurrentUserStatus = StatusCode.success;
+      _currentUser = null;
+      _updatingLoginStatus = StatusCode.success;
       notifyListeners();
-      return _updatingCurrentUserStatus;
+      return _updatingLoginStatus;
     }
 
-    _updatingCurrentUserStatus = await _updateCurrentUser(user);
+    _updatingLoginStatus = await _updateCurrentUser(user);
     notifyListeners();
-    return _updatingCurrentUserStatus;
+    return _updatingLoginStatus;
   }
 
   Future<StatusCode> _updateCurrentUser(FirebaseUser user) async {
@@ -105,7 +106,7 @@ abstract class AccountModel extends Model {
       _hasError = true;
     });
     if (_hasError || !document.exists) {
-      _updatingCurrentUserStatus = StatusCode.failed;
+      _updatingLoginStatus = StatusCode.failed;
       notifyListeners();
       return StatusCode.failed;
     }
@@ -113,9 +114,9 @@ abstract class AccountModel extends Model {
     User currentUser = User.fromSnapshot(document);
     _currentUser = currentUser;
     _isLoggedIn = true;
-    _updatingCurrentUserStatus = StatusCode.success;
+    _updatingLoginStatus = StatusCode.success;
     notifyListeners();
-    return _updatingCurrentUserStatus;
+    return _updatingLoginStatus;
   }
 
   Future<StatusCode> _checkIfUserExists(FirebaseUser user) async {

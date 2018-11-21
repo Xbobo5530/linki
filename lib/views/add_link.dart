@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:linki/models/main_model.dart';
 import 'package:linki/values/status_code.dart';
 import 'package:linki/values/strings.dart';
+import 'package:linki/views/waiting.dart';
 import 'dart:math' as math;
 import 'package:scoped_model/scoped_model.dart';
 
@@ -11,32 +12,42 @@ class AddLinkDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _mController = TextEditingController();
-    _buildTextField(MainModel model) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: TextField(
-              controller: _mController,
-              cursorColor: Colors.deepOrange,
-              autofocus: true,
-              maxLines: null,
-              style: TextStyle(
-                color: model.submittingLinkStatus == StatusCode.failed
-                    ? Colors.red
-                    : Colors.blue,
-                decoration: model.submittingLinkStatus == StatusCode.failed
-                    ? TextDecoration.none
-                    : TextDecoration.underline,
-              ),
-              decoration: InputDecoration(
-                  hintText: model.submittingLinkStatus == StatusCode.failed
-                      ? errorMessage
-                      : enterLinkLabelText,
-                  hintStyle: TextStyle(
-                    decoration: TextDecoration.none,
-                  ),
-                  prefixIcon: Transform.rotate(
-                      angle: -math.pi / 4, child: Icon(Icons.link)))),
-        );
+    _resetField(MainModel model) {
+      _mController.text = '';
+      model.resetSubmitStatus();
+    }
 
+    _buildTextField(MainModel model) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: TextField(
+          controller: _mController,
+          cursorColor: Colors.deepOrange,
+          autofocus: true,
+          maxLines: null,
+          style: TextStyle(
+            color: model.submittingLinkStatus == StatusCode.failed
+                ? Colors.red
+                : Colors.blue,
+            decoration: model.submittingLinkStatus == StatusCode.failed
+                ? TextDecoration.none
+                : TextDecoration.underline,
+          ),
+          decoration: InputDecoration(
+              hintText: model.submittingLinkStatus == StatusCode.failed
+                  ? errorMessage
+                  : enterLinkLabelText,
+              hintStyle: TextStyle(
+                decoration: TextDecoration.none,
+              ),
+              prefixIcon: Transform.rotate(
+                  angle: -math.pi / 4, child: Icon(Icons.link)),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  Icons.clear,
+                ),
+                onPressed: () => _resetField(model),
+              )),
+        ));
     _handleSubmit(MainModel model) async {
       final url = _mController.text.trim();
       if (url.isEmpty) return null;
@@ -93,20 +104,20 @@ class AddLinkDialog extends StatelessWidget {
       }
     }
 
-    _buildMessageSection(MainModel model) =>
-        Text(_getErrorMessage(model.linkiError));
+    _buildMessageSection(MainModel model) => Center(
+            child: Text(
+          _getErrorMessage(model.linkiError),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.red, fontWeight: FontWeight.bold, fontSize: 18.0),
+        ));
 
     return ScopedModelDescendant<MainModel>(
       builder: (_, __, model) => SimpleDialog(
             title: Text(addLinkText),
             children: model.submittingLinkStatus == StatusCode.waiting
                 ? <Widget>[
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(40.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
+                    WaitingView(),
                   ]
                 : <Widget>[
                     model.linkiError != null

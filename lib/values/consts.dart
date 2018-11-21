@@ -18,8 +18,11 @@ const ID_FIELD = 'id';
 const TITLE_FIELD = 'title';
 const DESCRIPTION_FIELD = 'description';
 const BIO_FIELD = 'bio';
+const REPORTS_FIELD = 'reports';
 
 const CONTACT_PHONE_URL = 'tel: +2550713810803';
 const CONTACT_EMAIL_URL = 'mailto: family@nyayozangu.com';
 
 const IS_ADMIN_FIELD = 'is_admin';
+
+const MAX_ALLOWED_REPORTS = 3;

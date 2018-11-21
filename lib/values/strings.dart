@@ -42,3 +42,4 @@ const loginMessage = 'You must be logged in to add a new link.\nClick the Login 
 const confirmLogoutText = 'Are you sure you want to logout?';
 const invalidUrlErrorMessage = 'Invalid Url, pleaes enter a valid WhatsApp group invitation url';
 const duplicateUrlErrorMessage = 'This group has already been added';
+const reportSubmittedMessage = 'Your report has been submitted for review. Thank you!';

@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 
 class Link {
   String id, url, title, imageUrl, description, createdBy;
-  int createdAt;
+  int createdAt, reports;
 
   Link(
       {this.id,
@@ -12,6 +12,7 @@ class Link {
       @required this.title,
       this.imageUrl,
       this.description,
+      this.reports,
       @required this.createdAt,
       this.createdBy})
       : assert(url != null),
@@ -25,6 +26,7 @@ class Link {
         this.title = document[TITLE_FIELD],
         this.imageUrl = document[IMAGE_URL_FIELD],
         this.description = document[DESCRIPTION_FIELD],
+        this.reports = document[REPORTS_FIELD],
         this.createdAt = document[CREATED_AT_FIELD],
         this.createdBy = document[CREATED_BY_FIELD];
 }

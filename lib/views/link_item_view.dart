@@ -16,6 +16,19 @@ class LinkItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _handleReport(model)async{
+      StatusCode reportStatus =await model.report(link);
+      switch (reportStatus){
+        case StatusCode.success:
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text(reportSubmittedMessage),));
+        break;
+        case StatusCode.failed:
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMessage),));
+        break;
+        default:
+        print('$_tag unexpected report status: $reportStatus');
+      }
+    }
     _handleMenuActions(MainModel model, MenuOption option) {
       switch (option) {
         case MenuOption.open:
@@ -28,7 +41,7 @@ class LinkItemView extends StatelessWidget {
           model.share(link);
           break;
         case MenuOption.report:
-          model.report(link);
+          _handleReport(model);
           break;
         default:
           print('$_tag unexpected menu option $option');
