@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:linki/values/consts.dart';
+import 'package:linki/src/values/consts.dart';
 import 'package:meta/meta.dart';
 
 class Link {

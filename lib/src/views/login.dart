@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:linki/models/main_model.dart';
-import 'package:linki/values/status_code.dart';
-import 'package:linki/values/strings.dart';
+import 'package:linki/src/models/main_model.dart';
+import 'package:linki/src/values/status_code.dart';
+import 'package:linki/src/values/strings.dart';
 
-import 'package:linki/views/waiting.dart';
+import 'package:linki/src/views/waiting.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 const _tag = 'LoginView:';

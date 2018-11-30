@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart';
-import 'package:linki/models/link.dart';
-import 'package:linki/models/user.dart';
-import 'package:linki/values/consts.dart';
-import 'package:linki/values/status_code.dart';
-import 'package:linki/values/strings.dart';
+import 'package:linki/src/models/link.dart';
+import 'package:linki/src/models/user.dart';
+import 'package:linki/src/values/consts.dart';
+import 'package:linki/src/values/status_code.dart';
+import 'package:linki/src/values/strings.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -251,7 +251,7 @@ abstract class LinkModel extends Model {
   }
 
   Future<StatusCode> _updateReports(Link link) async {
-    print('$_tag at _createFirstReport');
+    print('$_tag at _updateReports');
     bool _hasError = false;
     Map<String, int> reportMap = {REPORTS_FIELD: 1};
 
@@ -264,7 +264,12 @@ abstract class LinkModel extends Model {
           _hasError = true;
         });
       await transaction.update(
-          freshSnap.reference, {REPORTS_FIELD: freshSnap[REPORTS_FIELD] + 1});
+          freshSnap.reference, {REPORTS_FIELD: freshSnap[REPORTS_FIELD] + 1}).catchError(
+            (error){
+              print('$_tag error on performing transaction for reports: $error');
+              _hasError = true;
+            }
+          );
     });
     if (_hasError) return StatusCode.failed;
     return StatusCode.success;

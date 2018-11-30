@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:linki/models/link.dart';
-import 'package:linki/views/link_item_view.dart';
+import 'package:linki/src/models/link.dart';
+import 'package:linki/src/views/link_item_view.dart';
 
 class SearchLinks extends SearchDelegate {
   final Map<String, Link> links;

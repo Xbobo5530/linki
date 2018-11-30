@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:linki/models/main_model.dart';
-import 'package:linki/values/consts.dart';
-import 'package:linki/values/info_dialog.dart';
-import 'package:linki/values/status_code.dart';
-import 'package:linki/values/strings.dart';
-import 'package:linki/pages/search_dialog.dart';
-import 'package:linki/views/add_link.dart';
-import 'package:linki/views/home_body.dart';
-import 'package:linki/views/login.dart';
+import 'package:linki/src/models/main_model.dart';
+import 'package:linki/src/values/consts.dart';
+import 'package:linki/src/values/info_dialog.dart';
+import 'package:linki/src/values/status_code.dart';
+import 'package:linki/src/values/strings.dart';
+import 'package:linki/src/pages/search_dialog.dart';
+import 'package:linki/src/views/add_link.dart';
+import 'package:linki/src/views/home_body.dart';
+import 'package:linki/src/views/login.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 const _tag = 'MyHomePage:';
@@ -145,7 +145,7 @@ class MyHomePage extends StatelessWidget {
     final _fab = ScopedModelDescendant<MainModel>(
       builder: (_, __, model) {
         return Transform.scale(
-          scale: 3.0,
+          scale: 2.0,
           origin: Offset(-5.0, -5.0),
           child: FloatingActionButton(
               elevation: 0.0,

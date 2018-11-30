@@ -1,5 +1,5 @@
-import 'package:linki/models/account_model.dart';
-import 'package:linki/models/link_model.dart';
+import 'package:linki/src/models/account_model.dart';
+import 'package:linki/src/models/link_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 const _tag = 'MainModel:';

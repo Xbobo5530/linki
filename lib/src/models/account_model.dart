@@ -1,6 +1,6 @@
-import 'package:linki/models/user.dart';
-import 'package:linki/values/consts.dart';
-import 'package:linki/values/status_code.dart';
+import 'package:linki/src/models/user.dart';
+import 'package:linki/src/values/consts.dart';
+import 'package:linki/src/values/status_code.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -142,6 +142,7 @@ abstract class AccountModel extends Model {
     Map<String, dynamic> userMap = {
       NAME_FIELD: user.displayName,
       IMAGE_URL_FIELD: user.photoUrl,
+      IS_ADMIN_FIELD: false,
       CREATED_AT_FIELD: DateTime.now().millisecondsSinceEpoch
     };
     await _database

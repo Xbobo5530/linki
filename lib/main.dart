@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:linki/models/main_model.dart';
-import 'package:linki/pages/home.dart';
-import 'package:linki/values/strings.dart';
+import 'package:linki/src/models/main_model.dart';
+import 'package:linki/src/pages/home.dart';
+import 'package:linki/src/values/strings.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 void main() => runApp(Linki(model: MainModel()));

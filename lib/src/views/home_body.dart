@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:linki/models/link.dart';
-import 'package:linki/models/main_model.dart';
-import 'package:linki/views/link_item_view.dart';
+import 'package:linki/src/models/link.dart';
+import 'package:linki/src/models/main_model.dart';
+import 'package:linki/src/views/link_item_view.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class HomeBodyView extends StatelessWidget {
