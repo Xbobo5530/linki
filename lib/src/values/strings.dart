@@ -1,8 +1,8 @@
-
 const APP_NAME = 'Linki';
 
-
 const WHATSAPP_URL_SCHEME = 'https://chat.whatsapp.com/';
+// const FACEBOOK_URL_SCHEME = 'https://www.facebook.com/';
+const TELEGRAM_URL_SCHEME = 'https://t.me/';
 
 const submitText = 'Submit';
 const enterLinkLabelText = 'Enter a WhatsApp Group link';
@@ -20,7 +20,6 @@ const contactUsText = 'Contact us';
 const callUsText = 'Call us';
 const emailUsText = 'Email us';
 
-
 const devByText = 'Developed by NyayoZangu Init Co. Ltd.';
 const addLinkText = 'Add link';
 const groupLinkText = 'Group link';
@@ -37,9 +36,17 @@ const reportText = 'Report';
 
 const waitText = 'Please wait...';
 
+// groups
+const allText = 'All';
+const whatsAppText = 'WhatsApp';
+const telegramText = 'Telegram';
+
 //messages
-const loginMessage = 'You must be logged in to add a new link.\nClick the Login button to sigin in with Google.';
+const loginMessage =
+    'You must be logged in to add a new link.\nClick the Login button to sigin in with Google.';
 const confirmLogoutText = 'Are you sure you want to logout?';
-const invalidUrlErrorMessage = 'Invalid Url, pleaes enter a valid WhatsApp group invitation url';
+const invalidUrlErrorMessage =
+    'Invalid Url, pleaes enter a valid WhatsApp group invitation url';
 const duplicateUrlErrorMessage = 'This group has already been added';
-const reportSubmittedMessage = 'Your report has been submitted for review. Thank you!';
+const reportSubmittedMessage =
+    'Your report has been submitted for review. Thank you!';

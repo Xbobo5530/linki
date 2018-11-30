@@ -13,6 +13,9 @@ class Linki extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+     
+
     return ScopedModel(
       model: model,
       child: MaterialApp(

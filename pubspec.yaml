@@ -1,7 +1,7 @@
 name: linki
 description: A community based app for links to social media groups.
 
-version: 2.1.0+7
+version: 2.1.1+7
 
 dependencies:
   flutter:
@@ -15,6 +15,7 @@ dependencies:
   share: ^0.5.3
   google_sign_in: ^3.2.4
   firebase_auth: ^0.6.2+1
+  html_unescape: ^1.0.1+2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

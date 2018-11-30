@@ -3,6 +3,7 @@ import 'package:linki/src/models/link.dart';
 import 'package:linki/src/models/main_model.dart';
 import 'package:linki/src/values/status_code.dart';
 import 'package:linki/src/values/strings.dart';
+import 'package:linki/src/views/login.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 const _tag = 'LinkItemView';
@@ -16,19 +17,27 @@ class LinkItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _handleReport(model)async{
-      StatusCode reportStatus =await model.report(link);
-      switch (reportStatus){
+    _handleReport(model) async {
+      StatusCode reportStatus = await model.report(link);
+      switch (reportStatus) {
         case StatusCode.success:
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text(reportSubmittedMessage),));
-        break;
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text(reportSubmittedMessage),
+          ));
+          break;
         case StatusCode.failed:
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMessage),));
-        break;
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text(errorMessage),
+          ));
+          break;
         default:
-        print('$_tag unexpected report status: $reportStatus');
+          print('$_tag unexpected report status: $reportStatus');
       }
     }
+
+    _showLoginDialog( Intent intent) async => await showDialog(
+        context: context, builder: (context) => LoginDialog(intent: intent));
+
     _handleMenuActions(MainModel model, MenuOption option) {
       switch (option) {
         case MenuOption.open:
@@ -41,7 +50,9 @@ class LinkItemView extends StatelessWidget {
           model.share(link);
           break;
         case MenuOption.report:
-          _handleReport(model);
+          model.isLoggedIn
+              ? _handleReport(model)
+              : _showLoginDialog( Intent.login);
           break;
         default:
           print('$_tag unexpected menu option $option');
@@ -82,8 +93,8 @@ class LinkItemView extends StatelessWidget {
                 ? NetworkImage(link.imageUrl)
                 : AssetImage('assets/icon-foreground.png'),
           ),
-          title: Text(link.title),
-          subtitle: Text(link.description),
+          title: Text(link.decodedTitle, softWrap: true,),
+          subtitle: Text(link.decodedDescription, softWrap: true,),
           trailing: _buildPopUpMenuButton(model, isLinkOwner),
           onTap: () => model.openLink(link),
         );

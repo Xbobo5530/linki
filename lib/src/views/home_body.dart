@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:linki/src/models/link.dart';
 import 'package:linki/src/models/main_model.dart';
+import 'package:linki/src/values/status_code.dart';
 import 'package:linki/src/views/link_item_view.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -8,24 +9,47 @@ class HomeBodyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(builder: (_, __, model) {
-      return StreamBuilder(
-        stream: model.linksStream,
-        builder: (_, snapshot) {
-          if (!snapshot.hasData)
-            return Center(child: CircularProgressIndicator());
-
+      switch (model.selectedLinkType) {
+        case LinkType.whatsApp:
           return ListView.builder(
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (_, index) {
-                final document = snapshot.data.documents[index];
-                final link = Link.fromSnapshot(document);
+              itemCount: model.getLinksForSelectedType(LinkType.whatsApp).length,
+              itemBuilder: (context, index) => LinkItemView(
+                    link: model.getLinksForSelectedType(LinkType.whatsApp)[index],
+                  ));
+          break;
 
-                return LinkItemView(
-                  link: link,
-                );
-              });
-        },
-      );
+
+          case LinkType.telegram:
+          return ListView.builder(
+              itemCount: model.getLinksForSelectedType(LinkType.telegram).length,
+              itemBuilder: (context, index) => LinkItemView(
+                    link: model.getLinksForSelectedType(LinkType.telegram)[index],
+                  ));
+          break;
+
+        default:
+          return StreamBuilder(
+            stream: model.linksStream,
+            builder: (_, snapshot) {
+              if (!snapshot.hasData)
+                return Center(child: CircularProgressIndicator());
+
+              return ListView.builder(
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (_, index) {
+                    final document = snapshot.data.documents[index];
+                    final link = Link.fromSnapshot(document);
+                    link.decodedTitle = link.decodeString(link.title);
+                    link.decodedDescription =
+                        link.decodeString(link.description);
+                    // print(link.decodedTitle);
+                    return LinkItemView(
+                      link: link,
+                    );
+                  });
+            },
+          );
+      }
     });
   }
 }

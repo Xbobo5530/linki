@@ -3,3 +3,4 @@ enum MenuOption {open,share, delete, edit , report, logout,login, myLinks, appIn
 enum Intent{login, addLink}
 enum LinkiError{invalidUrlScheme, network,urlAlreadyExists }
 enum ContactType{phone, email}
+enum LinkType {whatsApp, facebook, telegram, all}

@@ -87,7 +87,7 @@ class MyHomePage extends StatelessWidget {
                   ],
                 )));
 
-    _showLoginDialog(MainModel model, Intent intent) async => await showDialog(
+    _showLoginDialog(Intent intent) async => await showDialog(
         context: context, builder: (context) => LoginDialog(intent: intent));
 
     _handleSelectionMenuOption(MainModel model, MenuOption option) {
@@ -99,7 +99,7 @@ class MyHomePage extends StatelessWidget {
           _showConfirmmationDialog();
           break;
         case MenuOption.login:
-          _showLoginDialog(model, Intent.login);
+          _showLoginDialog(Intent.login);
           break;
         default:
           print('$_tag unexpected option $option');
@@ -123,9 +123,51 @@ class MyHomePage extends StatelessWidget {
               ]);
     });
 
+    _handleFilter(MainModel model, LinkType type) {
+      model.updateSelectedLinkType(type);
+    }
+
+    final _filterButton = ScopedModelDescendant<MainModel>(
+        builder: (_, __, model) => PopupMenuButton<LinkType>(
+              onSelected: (type) => _handleFilter(model, type),
+              icon: Icon(Icons.filter_list),
+              itemBuilder: (_) => <PopupMenuEntry<LinkType>>[
+                    PopupMenuItem<LinkType>(
+                      value: LinkType.all,
+                      child: Text(allText),
+                    ),
+                    PopupMenuItem<LinkType>(
+                      value: LinkType.whatsApp,
+                      child: Text(whatsAppText),
+                    ),
+                    PopupMenuItem<LinkType>(
+                      value: LinkType.telegram,
+                      child: Text(telegramText),
+                    )
+                  ],
+            ));
+
+    final _title = ScopedModelDescendant<MainModel>(
+      builder: (_, __, model) {
+        switch (model.selectedLinkType) {
+          case LinkType.all:
+            return Text(APP_NAME);
+            break;
+          case LinkType.whatsApp:
+            return Text('$APP_NAME - $whatsAppText');
+            break;
+          case LinkType.telegram:
+            return Text('$APP_NAME - $telegramText');
+            break;
+          default:
+            return Text(APP_NAME);
+        }
+      },
+    );
+
     final _appBar = AppBar(
       elevation: 0.0,
-      title: Text(APP_NAME),
+      title: _title,
       leading: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Image.asset(
@@ -134,6 +176,7 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
+        _filterButton,
         _searchButton,
         _morePopUpButton,
       ],
@@ -152,7 +195,7 @@ class MyHomePage extends StatelessWidget {
               child: Icon(Icons.add),
               onPressed: model.isLoggedIn
                   ? () => _showAddLinkDialog()
-                  : () => _showLoginDialog(model, Intent.addLink)),
+                  : () => _showLoginDialog(Intent.addLink)),
         );
       },
     );

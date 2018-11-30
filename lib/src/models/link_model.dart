@@ -30,6 +30,8 @@ abstract class LinkModel extends Model {
   LinkiError get linkiError => _linkiErrorType;
   Link _lastSubmittedLink;
   List<String> _urlList = <String>[];
+  LinkType _selctedLinkType;
+  LinkType get selectedLinkType => _selctedLinkType;
 
   Future<StatusCode> getLinks() async {
     print('$_tag at getLinks');
@@ -46,6 +48,8 @@ abstract class LinkModel extends Model {
     Map<String, Link> tempList = Map();
     documents.forEach((document) {
       Link link = Link.fromSnapshot(document);
+      link.decodedTitle = link.decodeString(link.title);
+      link.decodedDescription = link.decodeString(link.description);
       tempList.putIfAbsent(document.documentID, () => link);
     });
 
@@ -54,6 +58,20 @@ abstract class LinkModel extends Model {
     _makeUrlList();
     return StatusCode.success;
   }
+
+  // addType() async {
+  //   print('at addType');
+  //   Map<String, int> typeMap = {TYPE_FIELD: LINK_TYPE_WHATSAPP};
+  //   QuerySnapshot snapshot =
+  //       await _database.collection(LINKS_COLLECTION).getDocuments();
+  //   List<DocumentSnapshot> documents = snapshot.documents;
+  //   documents.forEach((document) {
+  //     _database
+  //         .collection(LINKS_COLLECTION)
+  //         .document(document.documentID)
+  //         .updateData(typeMap);
+  //   });
+  // }
 
   _makeUrlList() {
     print('$_tag at _makeUrlList');
@@ -70,11 +88,41 @@ abstract class LinkModel extends Model {
     notifyListeners();
   }
 
+  bool _isValidUrlScheme(String url) {
+    return url.contains(WHATSAPP_URL_SCHEME) ||
+        // !url.contains(FACEBOOK_URL_SCHEME) ||
+        url.contains(TELEGRAM_URL_SCHEME);
+  }
+
   Future<StatusCode> submitLink(String url, User user) async {
     print('$_tag at submitLink');
+    // final url = 'https://t.me/fursaApp';
+    // Response response =
+    //     await http.get(url, headers: {'title': 'title'}).catchError((error) {
+    //   print('$_tag error on downloading page');
+
+    // });
+
+    // final titleTag = '<meta property="og:title" content="';
+    // final imageUrlTag = '<meta property="og:image" content="';
+    // final descriptionTag = '<meta property="og:description" content="';
+
+    // final title = _getValueFrom(response, titleTag);
+    // final imageUrl = _getValueFrom(response, imageUrlTag);
+    // final description = _getValueFrom(response, descriptionTag);
+
+    // print('''
+    //   title: $title,
+    //   imageUrl: $imageUrl,
+    //   description: $description
+
+    // ''');
+
+    // return null;
+
     _submittingLinkStatus = StatusCode.waiting;
     notifyListeners();
-    if (!url.contains(WHATSAPP_URL_SCHEME)) {
+    if (!_isValidUrlScheme(url)) {
       _linkiErrorType = LinkiError.invalidUrlScheme;
       _submittingLinkStatus = StatusCode.failed;
       notifyListeners();
@@ -99,13 +147,13 @@ abstract class LinkModel extends Model {
   }
 
   bool _linkAlreadyExists(String url) {
-    print('$_tag at _linkAlreadyExists');
+    // print('$_tag at _linkAlreadyExists');
 
     return _urlList.contains(url);
   }
 
   Future<StatusCode> _processLink(String url, User user) async {
-    print('$_tag at process link');
+    // print('$_tag at process link');
     bool _hasError = false;
     Response response =
         await http.get(url, headers: {'title': 'title'}).catchError((error) {
@@ -135,6 +183,12 @@ abstract class LinkModel extends Model {
     return body.substring(tagStartPos, tagEndPos);
   }
 
+  int _getType(String url) {
+    if (url.contains(WHATSAPP_URL_SCHEME)) return LINK_TYPE_WHATSAPP;
+    if (url.contains(TELEGRAM_URL_SCHEME)) return LINK_TYPE_TELEGRAM;
+    return 0;
+  }
+
   Future<StatusCode> _addLink(
       String url, title, imageUrl, description, User user) async {
     print('$_tag at _addLink');
@@ -145,6 +199,7 @@ abstract class LinkModel extends Model {
       TITLE_FIELD: title,
       IMAGE_URL_FIELD: imageUrl,
       DESCRIPTION_FIELD: description,
+      TYPE_FIELD: _getType(url),
       CREATED_AT_FIELD: DateTime.now().millisecondsSinceEpoch
     };
     DocumentReference documentRef = await _database
@@ -184,7 +239,7 @@ abstract class LinkModel extends Model {
   }
 
   Future<StatusCode> deleteLink(Link link) async {
-    print('$_tag at deleteLink');
+    // print('$_tag at deleteLink');
     bool _hasError = false;
     await Firestore.instance
         .collection(LINKS_COLLECTION)
@@ -216,7 +271,7 @@ abstract class LinkModel extends Model {
   }
 
   initiateContact(ContactType type) async {
-    print('$_tag at initiateContact');
+    // print('$_tag at initiateContact');
     String url;
     switch (type) {
       case ContactType.phone:
@@ -251,7 +306,7 @@ abstract class LinkModel extends Model {
   }
 
   Future<StatusCode> _updateReports(Link link) async {
-    print('$_tag at _updateReports');
+    // print('$_tag at _updateReports');
     bool _hasError = false;
     Map<String, int> reportMap = {REPORTS_FIELD: 1};
 
@@ -263,20 +318,18 @@ abstract class LinkModel extends Model {
           print('$_tag error on creating first report: $error');
           _hasError = true;
         });
-      await transaction.update(
-          freshSnap.reference, {REPORTS_FIELD: freshSnap[REPORTS_FIELD] + 1}).catchError(
-            (error){
-              print('$_tag error on performing transaction for reports: $error');
-              _hasError = true;
-            }
-          );
+      await transaction.update(freshSnap.reference,
+          {REPORTS_FIELD: freshSnap[REPORTS_FIELD] + 1}).catchError((error) {
+        print('$_tag error on performing transaction for reports: $error');
+        _hasError = true;
+      });
     });
     if (_hasError) return StatusCode.failed;
     return StatusCode.success;
   }
 
   Future<Link> _getLinkFromId(String id) async {
-    print('$_tag at getLinkFromId');
+    // print('$_tag at getLinkFromId');
     bool _hasError = false;
     DocumentSnapshot document = await _database
         .collection(LINKS_COLLECTION)
@@ -288,5 +341,56 @@ abstract class LinkModel extends Model {
     });
     if (_hasError || !document.exists) return null;
     return Link.fromSnapshot(document);
+  }
+
+  updateSelectedLinkType(LinkType type) {
+    // print('$_tag at updateSelectedLinkType');
+    _selctedLinkType = type;
+    notifyListeners();
+  }
+
+  int _getLinkTypeAsInt(LinkType type) {
+    switch (type) {
+      case LinkType.whatsApp:
+        return LINK_TYPE_WHATSAPP;
+        break;
+      case LinkType.telegram:
+        return LINK_TYPE_TELEGRAM;
+        break;
+      default:
+        return 0;
+    }
+  }
+
+  List<Link> _getLinksFor(LinkType type) {
+    // print('$_tag at _getLinksFor\nthe linkType is: $type');
+    List<Link> tempList = [];
+    _links.forEach((id, link) {
+      if (link.type == _getLinkTypeAsInt(type)) {
+        tempList.add(link);
+      }
+    });
+    return tempList;
+  }
+
+  List<Link> _allLinks() {
+    List<Link> tempList = [];
+    _links.forEach((id, link) {
+      tempList.add(link);
+    });
+    return tempList;
+  }
+
+  List<Link> getLinksForSelectedType(LinkType type) {
+    switch (type) {
+      case LinkType.whatsApp:
+        return _getLinksFor(LinkType.whatsApp);
+        break;
+      case LinkType.telegram:
+        return _getLinksFor(LinkType.telegram);
+        break;
+      default:
+        return _allLinks();
+    }
   }
 }
