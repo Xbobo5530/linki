@@ -154,10 +154,10 @@ class MyHomePage extends StatelessWidget {
             return Text(APP_NAME);
             break;
           case LinkType.whatsApp:
-            return Text('$APP_NAME - $whatsAppText');
+            return Text('$APP_NAME - $whatsAppText', softWrap: true,);
             break;
           case LinkType.telegram:
-            return Text('$APP_NAME - $telegramText');
+            return Text('$APP_NAME - $telegramText', softWrap: true,);
             break;
           default:
             return Text(APP_NAME);

@@ -5,7 +5,7 @@ const WHATSAPP_URL_SCHEME = 'https://chat.whatsapp.com/';
 const TELEGRAM_URL_SCHEME = 'https://t.me/';
 
 const submitText = 'Submit';
-const enterLinkLabelText = 'Enter a WhatsApp Group link';
+const enterLinkLabelText = 'Enter a Group link';
 const cancelText = 'Cancel';
 const okText = 'OK';
 const errorText = 'Error';
