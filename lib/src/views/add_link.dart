@@ -29,9 +29,7 @@ class AddLinkDialogState extends State<AddLinkDialog> {
       builder: (_, __, model) => SimpleDialog(
             title: Text(addLinkText),
             children: model.submittingLinkStatus == StatusCode.waiting
-                ? <Widget>[
-                    WaitingView()
-                  ]
+                ? <Widget>[WaitingView()]
                 : <Widget>[
                     model.linkiError != null
                         ? _buildMessageSection(model)

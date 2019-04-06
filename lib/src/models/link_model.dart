@@ -200,6 +200,7 @@ abstract class LinkModel extends Model {
   }
 
   Future<StatusCode> deleteLink(Link link) async {
+    // print('at delete');
     bool _hasError = false;
     await Firestore.instance
         .collection(LINKS_COLLECTION)
@@ -258,7 +259,7 @@ abstract class LinkModel extends Model {
   Future<StatusCode> reportLink(Link link) async {
     final reports = link.reports;
     if (reports == MAX_ALLOWED_REPORTS) {
-     await deleteLink(link);
+      await deleteLink(link);
       return StatusCode.success;
     }
     return await _updateReports(link);

@@ -42,8 +42,7 @@ const whatsAppText = 'WhatsApp';
 const telegramText = 'Telegram';
 
 //messages
-const loginMessage =
-    'Login with with Google.';
+const loginMessage = 'Login with with Google.';
 const confirmLogoutText = 'Are you sure you want to logout?';
 const invalidUrlErrorMessage =
     'Invalid Url, pleaes enter a valid WhatsApp group invitation url';

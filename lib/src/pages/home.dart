@@ -81,7 +81,8 @@ class MyHomePage extends StatelessWidget {
       },
     );
 
-    final _infoButton = IconButton(icon: Icon(Icons.info),onPressed:()=> _showInfoDialog(context));
+    final _infoButton = IconButton(
+        icon: Icon(Icons.info), onPressed: () => _showInfoDialog(context));
 
     final _appBar = AppBar(
       title: _title,

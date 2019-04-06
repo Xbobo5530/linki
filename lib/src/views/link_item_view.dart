@@ -4,7 +4,6 @@ import 'package:linki/src/models/main_model.dart';
 import 'package:linki/src/values/consts.dart';
 import 'package:linki/src/values/status_code.dart';
 import 'package:linki/src/values/strings.dart';
-import 'package:linki/src/views/login.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 const _tag = 'LinkItemView';
