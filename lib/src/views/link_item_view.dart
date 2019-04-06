@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:linki/src/models/link.dart';
 import 'package:linki/src/models/main_model.dart';
+import 'package:linki/src/values/consts.dart';
 import 'package:linki/src/values/status_code.dart';
 import 'package:linki/src/values/strings.dart';
 import 'package:linki/src/views/login.dart';
@@ -24,11 +25,11 @@ class LinkListItemView extends StatelessWidget {
                 model.currentUser.isAdmin);
         return ListTile(
             leading: CircleAvatar(
-                backgroundColor: Colors.black12,
-                backgroundImage: NetworkImage(link.imageUrl),
-                ),
-                // child: Text(link.title[0],
-                //     style: TextStyle(color: Colors.black))),
+              backgroundColor: Colors.black12,
+              backgroundImage: AssetImage(_assetImage()),
+            ),
+            // child: Text(link.title[0],
+            //     style: TextStyle(color: Colors.black))),
             title: Text(link.decodedTitle, softWrap: true),
             subtitle: Text(link.decodedDescription, softWrap: true),
             trailing: _buildPopUpMenuButton(model, context, isLinkOwner),
@@ -90,4 +91,15 @@ class LinkListItemView extends StatelessWidget {
                   value: isLinkOwner ? MenuOption.delete : MenuOption.report)
             ],
       );
+
+  String _assetImage() {
+    switch (link.type) {
+      case LINK_TYPE_WHATSAPP:
+        return ASSET_IMAGE_WHATSAPP_ICON;
+      case LINK_TYPE_TELEGRAM:
+        return ASSET_IMAGE_TELEGRAM_ICON;
+      default:
+        return ASSET_IMAGE_APP_ICON;
+    }
+  }
 }

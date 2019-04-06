@@ -1,5 +1,8 @@
-const APP_ICON = 'images/app_icon.png';
+const ASSET_IMAGE_APP_ICON = 'images/app_icon.png';
+const ASSET_IMAGE_WHATSAPP_ICON = 'assets/icon/ic_whatsapp.png';
+const ASSET_IMAGE_TELEGRAM_ICON = 'assets/icon/ic_telegram.png';
 const LINKI_DOWNLOAD_URL = 'https://goo.gl/t6vTxy';
+
 // collections
 const LINKS_COLLECTION = 'Links';
 const USERS_COLLECTION = 'Users';
@@ -17,11 +20,10 @@ const TITLE_FIELD = 'title';
 const DESCRIPTION_FIELD = 'description';
 const BIO_FIELD = 'bio';
 const REPORTS_FIELD = 'reports';
+const IS_ADMIN_FIELD = 'is_admin';
 
 const CONTACT_PHONE_URL = 'tel: +2550713810803';
 const CONTACT_EMAIL_URL = 'mailto: family@nyayozangu.com';
-
-const IS_ADMIN_FIELD = 'is_admin';
 
 const MAX_ALLOWED_REPORTS = 3;
 

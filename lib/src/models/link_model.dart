@@ -59,20 +59,6 @@ abstract class LinkModel extends Model {
     return StatusCode.success;
   }
 
-  // addType() async {
-  //   print('at addType');
-  //   Map<String, int> typeMap = {TYPE_FIELD: LINK_TYPE_WHATSAPP};
-  //   QuerySnapshot snapshot =
-  //       await _database.collection(LINKS_COLLECTION).getDocuments();
-  //   List<DocumentSnapshot> documents = snapshot.documents;
-  //   documents.forEach((document) {
-  //     _database
-  //         .collection(LINKS_COLLECTION)
-  //         .document(document.documentID)
-  //         .updateData(typeMap);
-  //   });
-  // }
-
   _makeUrlList() {
     print('$_tag at _makeUrlList');
     List<String> tempUrlList = <String>[];
@@ -90,35 +76,11 @@ abstract class LinkModel extends Model {
 
   bool _isValidUrlScheme(String url) {
     return url.contains(WHATSAPP_URL_SCHEME) ||
-        // !url.contains(FACEBOOK_URL_SCHEME) ||
         url.contains(TELEGRAM_URL_SCHEME);
   }
 
   Future<StatusCode> submitLink(String url, User user) async {
     print('$_tag at submitLink');
-    // final url = 'https://t.me/fursaApp';
-    // Response response =
-    //     await http.get(url, headers: {'title': 'title'}).catchError((error) {
-    //   print('$_tag error on downloading page');
-
-    // });
-
-    // final titleTag = '<meta property="og:title" content="';
-    // final imageUrlTag = '<meta property="og:image" content="';
-    // final descriptionTag = '<meta property="og:description" content="';
-
-    // final title = _getValueFrom(response, titleTag);
-    // final imageUrl = _getValueFrom(response, imageUrlTag);
-    // final description = _getValueFrom(response, descriptionTag);
-
-    // print('''
-    //   title: $title,
-    //   imageUrl: $imageUrl,
-    //   description: $description
-
-    // ''');
-
-    // return null;
 
     _submittingLinkStatus = StatusCode.waiting;
     notifyListeners();
@@ -147,8 +109,6 @@ abstract class LinkModel extends Model {
   }
 
   bool _linkAlreadyExists(String url) {
-    // print('$_tag at _linkAlreadyExists');
-
     return _urlList.contains(url);
   }
 

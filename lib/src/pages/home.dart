@@ -93,7 +93,7 @@ class MyHomePage extends StatelessWidget {
       leading: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Image.asset(
-          APP_ICON,
+          ASSET_IMAGE_APP_ICON,
           scale: 0.1,
         ),
       ),
