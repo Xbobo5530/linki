@@ -15,14 +15,6 @@ const _tag = 'MyHomePage:';
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    _showInfoDialog() async {
-      await showDialog(
-          context: context,
-          builder: (context) {
-            return InfoDialog();
-          });
-    }
-
     final _searchButton =
         ScopedModelDescendant<MainModel>(builder: (_, __, model) {
       return IconButton(
@@ -33,83 +25,11 @@ class MyHomePage extends StatelessWidget {
               ));
     });
 
-    _handleLogout(MainModel model) async {
-      StatusCode logoutStatus = await model.logout();
-      switch (logoutStatus) {
-        case StatusCode.success:
-          Navigator.pop(context);
-          break;
-        default:
-          print('$_tag unexpected logout status $logoutStatus');
-      }
-    }
-
-    _buildMessageSection(MainModel model) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-          child: Text(
-            model.logoutStatus == StatusCode.failed
-                ? errorMessage
-                : confirmLogoutText,
-            style: TextStyle(fontSize: 16.0),
-          ),
-        );
-
-    _buildActions(MainModel model) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              FlatButton(
-                child: Text(
-                  model.logoutStatus == StatusCode.waiting
-                      ? waitText.toUpperCase()
-                      : logoutText.toUpperCase(),
-                  style: TextStyle(color: Colors.deepOrange),
-                ),
-                onPressed: () => _handleLogout(model),
-              ),
-              FlatButton(
-                child: Text(cancelText.toUpperCase()),
-                onPressed: () => Navigator.pop(context),
-              )
-            ],
-          ),
-        );
-
-    _showConfirmmationDialog() async => showDialog(
-        context: context,
-        builder: (context) => ScopedModelDescendant<MainModel>(
-            builder: (_, __, model) => SimpleDialog(
-                  title: Text(logoutText),
-                  children: <Widget>[
-                    _buildMessageSection(model),
-                    _buildActions(model)
-                  ],
-                )));
-
-    _showLoginDialog(Intent intent) async => await showDialog(
-        context: context, builder: (context) => LoginDialog(intent: intent));
-
-    _handleSelectionMenuOption(MainModel model, MenuOption option) {
-      switch (option) {
-        case MenuOption.appInfo:
-          _showInfoDialog();
-          break;
-        case MenuOption.logout:
-          _showConfirmmationDialog();
-          break;
-        case MenuOption.login:
-          _showLoginDialog(Intent.login);
-          break;
-        default:
-          print('$_tag unexpected option $option');
-      }
-    }
-
     Widget _morePopUpButton =
         ScopedModelDescendant<MainModel>(builder: (_, __, model) {
       return PopupMenuButton<MenuOption>(
-          onSelected: (option) => _handleSelectionMenuOption(model, option),
+          onSelected: (option) =>
+              _handleSelectionMenuOption(model, context, option),
           itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuOption>>[
                 PopupMenuItem(
                   value: MenuOption.appInfo,
@@ -122,10 +42,6 @@ class MyHomePage extends StatelessWidget {
                 )
               ]);
     });
-
-    _handleFilter(MainModel model, LinkType type) {
-      model.updateSelectedLinkType(type);
-    }
 
     final _filterButton = ScopedModelDescendant<MainModel>(
         builder: (_, __, model) => PopupMenuButton<LinkType>(
@@ -154,10 +70,16 @@ class MyHomePage extends StatelessWidget {
             return Text(APP_NAME);
             break;
           case LinkType.whatsApp:
-            return Text('$APP_NAME - $whatsAppText', softWrap: true,);
+            return Text(
+              '$APP_NAME - $whatsAppText',
+              softWrap: true,
+            );
             break;
           case LinkType.telegram:
-            return Text('$APP_NAME - $telegramText', softWrap: true,);
+            return Text(
+              '$APP_NAME - $telegramText',
+              softWrap: true,
+            );
             break;
           default:
             return Text(APP_NAME);
@@ -182,9 +104,6 @@ class MyHomePage extends StatelessWidget {
       ],
     );
 
-    _showAddLinkDialog() async =>
-        await showDialog(context: context, builder: (_) => AddLinkDialog());
-
     final _fab = ScopedModelDescendant<MainModel>(
       builder: (_, __, model) {
         return Transform.scale(
@@ -194,8 +113,8 @@ class MyHomePage extends StatelessWidget {
               elevation: 0.0,
               child: Icon(Icons.add),
               onPressed: model.isLoggedIn
-                  ? () => _showAddLinkDialog()
-                  : () => _showLoginDialog(Intent.addLink)),
+                  ? () => _showAddLinkDialog(context)
+                  : () => _showLoginDialog(context, Intent.addLink)),
         );
       },
     );
@@ -205,5 +124,94 @@ class MyHomePage extends StatelessWidget {
       body: HomeBodyView(),
       floatingActionButton: _fab,
     );
+  }
+
+  _showAddLinkDialog(BuildContext context) async =>
+      await showDialog(context: context, builder: (_) => AddLinkDialog());
+  _handleFilter(MainModel model, LinkType type) {
+    model.updateSelectedLinkType(type);
+  }
+
+  _handleLogout(MainModel model, BuildContext context) async {
+    StatusCode logoutStatus = await model.logout();
+    switch (logoutStatus) {
+      case StatusCode.success:
+        Navigator.pop(context);
+        break;
+      default:
+        print('$_tag unexpected logout status $logoutStatus');
+    }
+  }
+
+  _buildMessageSection(MainModel model) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+        child: Text(
+          model.logoutStatus == StatusCode.failed
+              ? errorMessage
+              : confirmLogoutText,
+          style: TextStyle(fontSize: 16.0),
+        ),
+      );
+
+  _buildActions(MainModel model, BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            FlatButton(
+              child: Text(
+                model.logoutStatus == StatusCode.waiting
+                    ? waitText.toUpperCase()
+                    : logoutText.toUpperCase(),
+                style: TextStyle(color: Colors.deepOrange),
+              ),
+              onPressed: () => _handleLogout(model, context),
+            ),
+            FlatButton(
+              child: Text(cancelText.toUpperCase()),
+              onPressed: () => Navigator.pop(context),
+            )
+          ],
+        ),
+      );
+
+  _showConfirmmationDialog(BuildContext context) async => showDialog(
+      context: context,
+      builder: (context) => ScopedModelDescendant<MainModel>(
+          builder: (_, __, model) => SimpleDialog(
+                title: Text(logoutText),
+                children: <Widget>[
+                  _buildMessageSection(model),
+                  _buildActions(model, context)
+                ],
+              )));
+
+  _showLoginDialog(BuildContext context, Intent intent) async =>
+      await showDialog(
+          context: context, builder: (context) => LoginDialog(intent: intent));
+
+  _handleSelectionMenuOption(
+      MainModel model, BuildContext context, MenuOption option) {
+    switch (option) {
+      case MenuOption.appInfo:
+        _showInfoDialog(context);
+        break;
+      case MenuOption.logout:
+        _showConfirmmationDialog(context);
+        break;
+      case MenuOption.login:
+        _showLoginDialog(context, Intent.login);
+        break;
+      default:
+        print('$_tag unexpected option $option');
+    }
+  }
+
+  _showInfoDialog(BuildContext context) async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return InfoDialog();
+        });
   }
 }

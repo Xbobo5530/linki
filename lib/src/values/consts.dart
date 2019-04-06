@@ -1,5 +1,3 @@
-
-
 const APP_ICON = 'images/app_icon.png';
 const LINKI_DOWNLOAD_URL = 'https://goo.gl/t6vTxy';
 // collections
@@ -31,4 +29,3 @@ const MAX_ALLOWED_REPORTS = 3;
 const LINK_TYPE_WHATSAPP = 1;
 const LINK_TYPE_FACEBOOK = 2;
 const LINK_TYPE_TELEGRAM = 3;
-

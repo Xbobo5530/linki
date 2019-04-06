@@ -1,4 +1,4 @@
-package com.nyayozangu.labs.linki
+package com.nyayozangu.labs.linky
 
 import android.os.Bundle
 

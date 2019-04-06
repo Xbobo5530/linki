@@ -6,7 +6,7 @@ const _tag = 'MainModel:';
 
 class MainModel extends Model with LinkModel, AccountModel {
   MainModel() {
-    print('$_tag at MainModel');
+    updateLoginStatus();
     getLinks();
   }
 }

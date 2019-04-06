@@ -1,7 +1,7 @@
 name: linki
 description: A community based app for links to social media groups.
 
-version: 2.1.1+7
+version: 3.0.0+1
 
 dependencies:
   flutter:

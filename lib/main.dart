@@ -13,15 +13,11 @@ class Linki extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-     
-
     return ScopedModel(
       model: model,
       child: MaterialApp(
         title: APP_NAME,
-        theme: ThemeData(
-            primarySwatch: Colors.deepOrange),
+        theme: ThemeData(primarySwatch: Colors.deepOrange),
         home: MyHomePage(),
       ),
     );

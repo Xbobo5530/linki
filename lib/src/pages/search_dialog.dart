@@ -38,7 +38,7 @@ class SearchLinks extends SearchDelegate {
 
     return ListView(
       children: resultsList
-          .map((link) => LinkItemView(
+          .map((link) => LinkListItemView(
                 link: link,
                 key: Key(link.id),
               ))
@@ -56,7 +56,7 @@ class SearchLinks extends SearchDelegate {
 
     return ListView(
       children: resultsList
-          .map((link) => LinkItemView(
+          .map((link) => LinkListItemView(
                 link: link,
                 key: Key(link.id),
               ))

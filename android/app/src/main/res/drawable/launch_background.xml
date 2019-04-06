@@ -9,10 +9,10 @@
             <!--android:gravity="center"-->
             <!--android:src="@mipmap/launch_image" />-->
     <!--</item>-->
-
+    <!-- android:src="@drawable/ic_foreground" /> -->
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/ic_foreground" />
+            android:src="@mipmap/ic_launcher" />
     </item>
 </layer-list>

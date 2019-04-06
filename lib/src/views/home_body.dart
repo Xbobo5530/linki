@@ -12,20 +12,21 @@ class HomeBodyView extends StatelessWidget {
       switch (model.selectedLinkType) {
         case LinkType.whatsApp:
           return ListView.builder(
-              itemCount: model.getLinksForSelectedType(LinkType.whatsApp).length,
-              itemBuilder: (context, index) => LinkItemView(
-                    link: model.getLinksForSelectedType(LinkType.whatsApp)[index],
+              itemCount:
+                  model.getLinksForSelectedType(LinkType.whatsApp).length,
+              itemBuilder: (context, index) => LinkListItemView(
+                    link:
+                        model.getLinksForSelectedType(LinkType.whatsApp)[index],
                   ));
-          break;
 
-
-          case LinkType.telegram:
+        case LinkType.telegram:
           return ListView.builder(
-              itemCount: model.getLinksForSelectedType(LinkType.telegram).length,
-              itemBuilder: (context, index) => LinkItemView(
-                    link: model.getLinksForSelectedType(LinkType.telegram)[index],
+              itemCount:
+                  model.getLinksForSelectedType(LinkType.telegram).length,
+              itemBuilder: (context, index) => LinkListItemView(
+                    link:
+                        model.getLinksForSelectedType(LinkType.telegram)[index],
                   ));
-          break;
 
         default:
           return StreamBuilder(
@@ -42,10 +43,8 @@ class HomeBodyView extends StatelessWidget {
                     link.decodedTitle = link.decodeString(link.title);
                     link.decodedDescription =
                         link.decodeString(link.description);
-                    // print(link.decodedTitle);
-                    return LinkItemView(
-                      link: link,
-                    );
+
+                    return LinkListItemView(link: link, key: Key(link.id));
                   });
             },
           );
