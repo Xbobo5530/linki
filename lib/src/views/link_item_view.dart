@@ -25,11 +25,8 @@ class LinkListItemView extends StatelessWidget {
                 model.currentUser.isAdmin);
         return ListTile(
             leading: CircleAvatar(
-              backgroundColor: Colors.black12,
-              backgroundImage: AssetImage(_assetImage()),
-            ),
-            // child: Text(link.title[0],
-            //     style: TextStyle(color: Colors.black))),
+                backgroundColor: Colors.black12,
+                backgroundImage: AssetImage(_assetImage())),
             title: Text(link.decodedTitle, softWrap: true),
             subtitle: Text(link.decodedDescription, softWrap: true),
             trailing: _buildPopUpMenuButton(model, context, isLinkOwner),
@@ -39,7 +36,7 @@ class LinkListItemView extends StatelessWidget {
   }
 
   _handleReport(MainModel model, BuildContext context) async {
-    StatusCode reportStatus = await model.report(link);
+    StatusCode reportStatus = await model.reportLink(link);
     switch (reportStatus) {
       case StatusCode.success:
         Scaffold.of(context)
@@ -54,9 +51,9 @@ class LinkListItemView extends StatelessWidget {
     }
   }
 
-  _showLoginDialog(BuildContext context, Intent intent) async =>
-      await showDialog(
-          context: context, builder: (context) => LoginDialog(intent: intent));
+  // _showLoginDialog(BuildContext context, Intent intent) async =>
+  //     await showDialog(
+  //         context: context, builder: (context) => LoginDialog(intent: intent));
 
   _handleMenuActions(MainModel model, BuildContext context, MenuOption option) {
     switch (option) {
@@ -70,9 +67,7 @@ class LinkListItemView extends StatelessWidget {
         model.share(link);
         break;
       case MenuOption.report:
-        model.isLoggedIn
-            ? _handleReport(model, context)
-            : _showLoginDialog(context, Intent.login);
+        _handleReport(model, context);
         break;
       default:
         print('$_tag unexpected menu option $option');

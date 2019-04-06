@@ -113,7 +113,6 @@ abstract class LinkModel extends Model {
   }
 
   Future<StatusCode> _processLink(String url, User user) async {
-    // print('$_tag at process link');
     bool _hasError = false;
     Response response =
         await http.get(url, headers: {'title': 'title'}).catchError((error) {
@@ -130,13 +129,15 @@ abstract class LinkModel extends Model {
     final imageUrl = _getValueFrom(response, imageUrlTag);
     final description = _getValueFrom(response, descriptionTag);
 
+    if (await containsProfanity(title) && await containsProfanity(description))
+      return StatusCode.failed;
+
     return await _addLink(url, title, imageUrl, description, user);
   }
 
   String _getValueFrom(Response response, String tag) {
     print('$_tag at _getValueFrom');
     final body = response.body;
-    //var titleTag = format; //'<meta property="og:title" content="';
     final tagLength = tag.length;
     final tagStartPos = body.indexOf(tag) + tagLength;
     final tagEndPos = body.indexOf('"', tagStartPos);
@@ -199,7 +200,6 @@ abstract class LinkModel extends Model {
   }
 
   Future<StatusCode> deleteLink(Link link) async {
-    // print('$_tag at deleteLink');
     bool _hasError = false;
     await Firestore.instance
         .collection(LINKS_COLLECTION)
@@ -231,7 +231,6 @@ abstract class LinkModel extends Model {
   }
 
   initiateContact(ContactType type) async {
-    // print('$_tag at initiateContact');
     String url;
     switch (type) {
       case ContactType.phone:
@@ -256,17 +255,16 @@ abstract class LinkModel extends Model {
     Share.share(_shareText);
   }
 
-  Future<StatusCode> report(Link link) async {
+  Future<StatusCode> reportLink(Link link) async {
     final reports = link.reports;
     if (reports == MAX_ALLOWED_REPORTS) {
-      deleteLink(link);
+     await deleteLink(link);
       return StatusCode.success;
     }
     return await _updateReports(link);
   }
 
   Future<StatusCode> _updateReports(Link link) async {
-    // print('$_tag at _updateReports');
     bool _hasError = false;
     Map<String, int> reportMap = {REPORTS_FIELD: 1};
 
@@ -289,7 +287,6 @@ abstract class LinkModel extends Model {
   }
 
   Future<Link> _getLinkFromId(String id) async {
-    // print('$_tag at getLinkFromId');
     bool _hasError = false;
     DocumentSnapshot document = await _database
         .collection(LINKS_COLLECTION)
@@ -323,7 +320,6 @@ abstract class LinkModel extends Model {
   }
 
   List<Link> _getLinksFor(LinkType type) {
-    // print('$_tag at _getLinksFor\nthe linkType is: $type');
     List<Link> tempList = [];
     _links.forEach((id, link) {
       if (link.type == _getLinkTypeAsInt(type)) {
@@ -352,5 +348,18 @@ abstract class LinkModel extends Model {
       default:
         return _allLinks();
     }
+  }
+
+  Future<bool> containsProfanity(String phrase) async {
+    bool _containsProfanity = false;
+    DocumentSnapshot document =
+        await _database.collection(LINKS_COLLECTION).document('x').get();
+    if (document == null || !document.exists) return false;
+    List<dynamic> xPhrases = document['xPhrases'];
+
+    xPhrases.forEach((word) {
+      if (phrase.contains(word)) _containsProfanity = true;
+    });
+    return _containsProfanity;
   }
 }

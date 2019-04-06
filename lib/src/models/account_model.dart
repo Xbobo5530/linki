@@ -174,4 +174,9 @@ abstract class AccountModel extends Model {
 
     return _loginStatus;
   }
+
+  void resetLoginStatus() {
+    _loginStatus = null;
+    notifyListeners();
+  }
 }

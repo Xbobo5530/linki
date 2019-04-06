@@ -25,23 +25,23 @@ class MyHomePage extends StatelessWidget {
               ));
     });
 
-    Widget _morePopUpButton =
-        ScopedModelDescendant<MainModel>(builder: (_, __, model) {
-      return PopupMenuButton<MenuOption>(
-          onSelected: (option) =>
-              _handleSelectionMenuOption(model, context, option),
-          itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuOption>>[
-                PopupMenuItem(
-                  value: MenuOption.appInfo,
-                  child: Text(appInfoText),
-                ),
-                PopupMenuItem(
-                  value:
-                      model.isLoggedIn ? MenuOption.logout : MenuOption.login,
-                  child: Text(model.isLoggedIn ? logoutText : loginText),
-                )
-              ]);
-    });
+    // Widget _morePopUpButton =
+    //     ScopedModelDescendant<MainModel>(builder: (_, __, model) {
+    //   return PopupMenuButton<MenuOption>(
+    //       onSelected: (option) =>
+    //           _handleSelectionMenuOption(model, context, option),
+    //       itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuOption>>[
+    //             PopupMenuItem(
+    //               value: MenuOption.appInfo,
+    //               child: Text(appInfoText),
+    //             ),
+    //             // PopupMenuItem(
+    //             //   value:
+    //             //       model.isLoggedIn ? MenuOption.logout : MenuOption.login,
+    //             //   child: Text(model.isLoggedIn ? logoutText : loginText),
+    //             // )
+    //           ]);
+    // });
 
     final _filterButton = ScopedModelDescendant<MainModel>(
         builder: (_, __, model) => PopupMenuButton<LinkType>(
@@ -68,27 +68,22 @@ class MyHomePage extends StatelessWidget {
         switch (model.selectedLinkType) {
           case LinkType.all:
             return Text(APP_NAME);
-            break;
+
           case LinkType.whatsApp:
-            return Text(
-              '$APP_NAME - $whatsAppText',
-              softWrap: true,
-            );
-            break;
+            return Text('$APP_NAME - $whatsAppText', softWrap: true);
+
           case LinkType.telegram:
-            return Text(
-              '$APP_NAME - $telegramText',
-              softWrap: true,
-            );
-            break;
+            return Text('$APP_NAME - $telegramText', softWrap: true);
+
           default:
             return Text(APP_NAME);
         }
       },
     );
 
+    final _infoButton = IconButton(icon: Icon(Icons.info),onPressed:()=> _showInfoDialog(context));
+
     final _appBar = AppBar(
-      elevation: 0.0,
       title: _title,
       leading: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -100,29 +95,23 @@ class MyHomePage extends StatelessWidget {
       actions: <Widget>[
         _filterButton,
         _searchButton,
-        _morePopUpButton,
+        //TODO: after fixing login add menu button
+        // _morePopUpButton,
+        _infoButton
       ],
     );
 
     final _fab = ScopedModelDescendant<MainModel>(
-      builder: (_, __, model) {
-        return Transform.scale(
-          scale: 2.0,
-          origin: Offset(-5.0, -5.0),
-          child: FloatingActionButton(
-              elevation: 0.0,
-              child: Icon(Icons.add),
-              onPressed: model.isLoggedIn
-                  ? () => _showAddLinkDialog(context)
-                  : () => _showLoginDialog(context, Intent.addLink)),
-        );
-      },
-    );
+        builder: (_, __, model) => FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: model.isLoggedIn
+                ? () => _showAddLinkDialog(context)
+                : () => _showLoginDialog(context, Intent.addLink)));
 
     return Scaffold(
       appBar: _appBar,
       body: HomeBodyView(),
-      floatingActionButton: _fab,
+      // floatingActionButton: _fab,
     );
   }
 

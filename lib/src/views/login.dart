@@ -19,66 +19,39 @@ class LoginDialog extends StatelessWidget {
               title: Text(loginText),
               children: model.loginStatus == StatusCode.waiting
                   ? <Widget>[WaitingView()]
-                  : <Widget>[_buildContent(model, context)],
+                  : _buildContent(model, context),
             ));
   }
 
   Future<void> _handleLogin(BuildContext context, MainModel model) async {
     StatusCode loginStatus = await model.signInWithGoole();
-    switch (loginStatus) {
-      case StatusCode.success:
-        Navigator.pop(context);
-        // if (intent == Intent.addLink) _showAddLinkDialog();
-        break;
-      default:
-        print('$_tag unexpected login status code: $loginStatus');
-    }
+    if (loginStatus == StatusCode.failed) return;
+    Navigator.pop(context);
   }
 
-  _buildMessageSection(MainModel model) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Text(
+  _buildMessageSection(MainModel model) => ListTile(
+      title: Text(
           model.loginStatus == StatusCode.failed ? errorMessage : loginMessage,
           style: TextStyle(
-              fontSize: 16.0,
+              // fontSize: 16.0,
               color: model.loginStatus == StatusCode.failed
                   ? Colors.red
-                  : Colors.black),
-        ),
-      );
+                  : Colors.black)));
 
-  _buildLoginButton(MainModel model, BuildContext context) => FlatButton(
-      textColor: Colors.deepOrange,
-      child: Text(
-        model.loginStatus == StatusCode.waiting
-            ? waitText.toUpperCase()
-            : loginText.toUpperCase(),
-        style: TextStyle(fontSize: 16.0),
-      ),
-      onPressed: () => _handleLogin(context, model));
-
-  _buildCancelButton(MainModel model, BuildContext context) => FlatButton(
-        child: Text(cancelText.toUpperCase()),
-        onPressed: () => Navigator.pop(context),
-      );
-
-  _buildActions(MainModel model, BuildContext context) => Padding(
-        padding: const EdgeInsets.only(right: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[_buildLoginButton(model, context)],
-            ),
-            _buildCancelButton(model, context),
-          ],
-        ),
-      );
-
-  _buildContent(MainModel model, BuildContext context) =>
-      Column(children: <Widget>[
+  _buildContent(MainModel model, BuildContext context) => <Widget>[
         _buildMessageSection(model),
-        _buildActions(model, context),
-      ]);
+        SimpleDialogOption(
+            child: Text(loginText.toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.deepOrange)),
+            onPressed: () => _handleLogin(context, model)),
+        SimpleDialogOption(
+            child: Text(cancelText.toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey)),
+            onPressed: () {
+              Navigator.pop(context);
+              model.resetLoginStatus();
+            }),
+      ];
 }

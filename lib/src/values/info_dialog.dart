@@ -14,15 +14,12 @@ class InfoDialog extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 FlatButton(
-                  child: Text(
-                    callUsText,
-                    style: TextStyle(color: Colors.deepOrange),
-                  ),
-                  onPressed: () {
-                    model.initiateContact(ContactType.phone);
-                    Navigator.pop(context);
-                  },
-                ),
+                    child: Text(callUsText,
+                        style: TextStyle(color: Colors.deepOrange)),
+                    onPressed: () {
+                      model.initiateContact(ContactType.phone);
+                      Navigator.pop(context);
+                    }),
                 FlatButton(
                   child: Text(
                     emailUsText,
@@ -40,7 +37,7 @@ class InfoDialog extends StatelessWidget {
 
     final _bodySection = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Text(devByText),
+      child: ListTile(title: Text(devByText), subtitle: Text(reportProfanityWarningMessage, style: TextStyle(color: Colors.redAccent),),),
     );
 
     return SimpleDialog(

@@ -30,7 +30,7 @@ class AddLinkDialogState extends State<AddLinkDialog> {
             title: Text(addLinkText),
             children: model.submittingLinkStatus == StatusCode.waiting
                 ? <Widget>[
-                    WaitingView(),
+                    WaitingView()
                   ]
                 : <Widget>[
                     model.linkiError != null
