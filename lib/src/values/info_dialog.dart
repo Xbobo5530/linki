@@ -6,43 +6,30 @@ import 'package:scoped_model/scoped_model.dart';
 
 class InfoDialog extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    final _actionButtons = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: ScopedModelDescendant<MainModel>(
-        builder: (_, __, model) => Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                FlatButton(
-                    child: Text(callUsText,
-                        style: TextStyle(color: Colors.deepOrange)),
-                    onPressed: () {
-                      model.initiateContact(ContactType.phone);
-                      Navigator.pop(context);
-                    }),
-                FlatButton(
-                  child: Text(
-                    emailUsText,
-                    style: TextStyle(color: Colors.deepOrange),
-                  ),
+  Widget build(BuildContext context) => ScopedModelDescendant<MainModel>(
+      builder: (context, child, model) => SimpleDialog(
+            title: Text(APP_NAME),
+            children: <Widget>[
+              ListTile(
+                  title: Text(devByText),
+                  subtitle: Text(reportProfanityWarningMessage,
+                      style: TextStyle(color: Colors.redAccent))),
+              SimpleDialogOption(
+                child: Text(callUsText.toUpperCase(),textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.deepOrange)),
+                onPressed: () {
+                  model.initiateContact(ContactType.phone);
+                  Navigator.pop(context);
+                },
+              ),
+              SimpleDialogOption(
+                  child: Text(emailUsText.toUpperCase(),textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.deepOrange)),
                   onPressed: () {
                     model.initiateContact(ContactType.email);
                     Navigator.pop(context);
-                  },
-                )
-              ],
-            ),
-      ),
+                  }),
+            ],
+          ),
     );
-
-    final _bodySection = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: ListTile(title: Text(devByText), subtitle: Text(reportProfanityWarningMessage, style: TextStyle(color: Colors.redAccent),),),
-    );
-
-    return SimpleDialog(
-      title: Text(APP_NAME),
-      children: <Widget>[_bodySection, _actionButtons],
-    );
-  }
 }
